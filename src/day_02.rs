@@ -48,11 +48,11 @@ pub fn calculate_bow_length(input: &str) -> i32 {
 
     let wrap_size = &l * &w * &h;
 
-
     let mut ribbon = 0;
     for item in [l, w, h].iter() {
         ribbon = ribbon + 2 * item;
     }
+
     let x = *[l, w, h].iter().max().unwrap();
     ribbon = ribbon - 2 * x;
 

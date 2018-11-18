@@ -1,5 +1,6 @@
 mod day_01;
 mod day_02;
+mod day_03;
 
 use std::fs::File;
 use std::io::prelude::*;
@@ -37,9 +38,18 @@ fn day_02_run() {
     println!("Day 02: Part A: {}; Part B: {}", total, ribbon_total);
 }
 
+fn day_03_run() {
+    let path = "data/day_03.txt";
+    let data = read(path);
+    let stops = day_03::get_stops(&data);
+    let robo_stops = day_03::get_stops_with_robo(&data);
+    println!("Day 03: Part A: {}; Part B: {}", stops.0, robo_stops);
+}
+
 fn main() {
     day_01_run();
     day_02_run();
+    day_03_run(); // 4488 too high
 }
 
 
