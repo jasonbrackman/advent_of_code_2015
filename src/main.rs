@@ -1,6 +1,7 @@
 mod day_01;
 mod day_02;
 mod day_03;
+mod day_04;
 
 use std::fs::File;
 use std::io::prelude::*;
@@ -46,10 +47,16 @@ fn day_03_run() {
     println!("Day 03: Part A: {}; Part B: {}", stops.0, robo_stops);
 }
 
+fn day_04_run() {
+    let result1 = day_04::get_md5_with_prefix("iwrupvqb", 5);
+    let result2 = day_04::get_md5_with_prefix("iwrupvqb", 6);
+    println!("Day 04: Part A: {}; Part B: {}", result1, result2);
+}
 fn main() {
     day_01_run();
     day_02_run();
     day_03_run(); // 4488 too high
+    day_04_run();
 }
 
 
