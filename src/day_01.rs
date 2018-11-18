@@ -32,6 +32,7 @@ fn day_01_part_a() {
     assert_eq!(what_floor("(()()(()()()())(((((()))))(()()()"), 3)
 }
 
+#[test]
 fn day_01_part_b() {
     assert_eq!(which_index_is_basement(")"), 1);
     assert_eq!(which_index_is_basement("()())"), 5);
