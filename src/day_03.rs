@@ -7,17 +7,16 @@ pub fn get_stops(input: &str) -> (i32, HashMap<(i32, i32), i32>) {
     let mut hmap: HashMap<(i32, i32), i32> = HashMap::new();
     hmap.entry((h, v)).or_insert( 1);
 
-
     for item in input.chars() {
         match item {
-            '^' => { h += 1 },
-            '>' => { v += 1 },
-            'v' => { h -= 1 },
-            '<' => { v -= 1 },
-            _ => {}
+            '^' => h += 1,
+            '>' => v += 1,
+            'v' => h -= 1,
+            '<' => v -= 1,
+            _ => ()
         }
 
-        let counter = hmap.entry((h, v)).or_insert(0);
+        let mut counter = hmap.entry((h, v)).or_insert(0);
         *counter += 1;
     }
 

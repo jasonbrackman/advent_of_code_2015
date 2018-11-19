@@ -2,6 +2,7 @@ mod day_01;
 mod day_02;
 mod day_03;
 mod day_04;
+mod day_05;
 
 use std::fs::File;
 use std::io::prelude::*;
@@ -47,16 +48,38 @@ fn day_03_run() {
     println!("Day 03: Part A: {}; Part B: {}", stops.0, robo_stops);
 }
 
+#[allow(dead_code)]
 fn day_04_run() {
     let result1 = day_04::get_md5_with_prefix("iwrupvqb", 5);
     let result2 = day_04::get_md5_with_prefix("iwrupvqb", 6);
     println!("Day 04: Part A: {}; Part B: {}", result1, result2);
 }
+
+fn day_05_run() {
+    let path = "data/day_05.txt";
+    let lines = read(path);
+
+    let mut total_nice = 0;
+    let mut total_nice_new = 0;
+    for line in lines.split('\n') {
+        if day_05::follows_all_rules(line) {
+            total_nice += 1;
+        }
+
+        if day_05::follows_new_rules(line) {
+            total_nice_new +=1;
+        }
+    }
+
+    println!("Day 05: Part A: {}; Part B: {}", total_nice, total_nice_new);
+}
 fn main() {
-    day_01_run();
-    day_02_run();
-    day_03_run(); // 4488 too high
-    day_04_run();
+    day_01_run(); // Day 01: Part A: 232; Part B: 1783
+    day_02_run(); // Day 02: Part A: 1588178; Part B: 3783758
+    day_03_run(); // Day 03: Part A: 2592; Part B: 2360
+    day_04_run(); // Day 04: Part A: 346386; Part B: 9958218
+    day_05_run(); // Day 05: Part A: 255; Part B: 55
+
 }
 
 
