@@ -3,6 +3,7 @@ mod day_02;
 mod day_03;
 mod day_04;
 mod day_05;
+mod day_06;
 
 use std::fs::File;
 use std::io::prelude::*;
@@ -73,13 +74,27 @@ fn day_05_run() {
 
     println!("Day 05: Part A: {}; Part B: {}", total_nice, total_nice_new);
 }
+
+fn day_06_run() {
+    let path = "data/day_06.txt";
+    let lines = read(path);
+
+    let mut board = day_06::Board::new();
+    for line in lines.split('\n') {
+        let mut args = day_06::process_line(line);
+        board.switch(args.0, args.1, args.2);
+    }
+    let result1 = board.count_true_squares();
+    println!("Day 06: Part A: {}; Part B: {}", result1, "na");
+}
+
 fn main() {
     day_01_run(); // Day 01: Part A: 232; Part B: 1783
     day_02_run(); // Day 02: Part A: 1588178; Part B: 3783758
     day_03_run(); // Day 03: Part A: 2592; Part B: 2360
     day_04_run(); // Day 04: Part A: 346386; Part B: 9958218
     day_05_run(); // Day 05: Part A: 255; Part B: 55
-
+    day_06_run(); // Day 06: Part A: 400410; Part B: na
 }
 
 
