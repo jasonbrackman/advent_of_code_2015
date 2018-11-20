@@ -36,13 +36,11 @@ fn contains_three_vowels(input: &str) -> bool {
 }
 
 fn contains_duplicated_letter(input: &str, interrupted: usize) -> bool {
-    let mut counter = 0;
 
-    for (index, item) in input.chars().enumerate() {
-        if index < input.len()-1-interrupted {
-            if item == input.chars().nth(index + 1 + interrupted).unwrap() {
-                counter += 1;
-            }
+    let mut counter = 0;
+    for (c1, c2) in input.chars().zip(input.chars().skip(1 + interrupted)) {
+        if c1 == c2 {
+            counter += 1;
         }
     }
 

@@ -6,6 +6,7 @@ pub fn get_md5_with_prefix(input: &str, leading_zeroes: i32) -> i32 {
         true => 0,
         false => 9
     };
+
     for index in 0.. {
         let new_string = [input, &index.to_string()].concat();
         let mut digest = md5::compute(new_string);

@@ -22,11 +22,18 @@ pub fn get_stops(input: &str) -> (i32, HashMap<(i32, i32), i32>) {
 
 
     let mut counter = 0;
-    for (_, v) in hmap.iter() {
-        if *v > 0 {
-            counter += 1;
-        }
-    }
+    for _ in hmap
+        .iter()
+        .map(|(_, v)|  {
+                if v > &0 {
+                    counter += 1 }
+            }) {};
+
+//    for (_, v) in hmap.iter() {
+//        if *v > 0 {
+//            counter += 1;
+//        }
+//    }
 
     (counter, hmap)
 }
@@ -47,12 +54,6 @@ pub fn get_stops_with_robo(input: &str) -> i32 {
     let line2 = evens.join("");
     let (_, hmap1) = get_stops(&line1);
     let (_, hmap2) = get_stops(&line2);
-
-//    for (k, _v) in hmap1.into_iter() {
-//        if hmap2.contains_key(&k) {
-//            hmap1[&k] += hmap2[&k];
-//        }
-//    }
 
     let mut counter = 0;
     for (_, v) in hmap1.iter() {
