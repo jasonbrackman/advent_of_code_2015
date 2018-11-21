@@ -6,7 +6,11 @@
 
 pub fn get_dimensions(input: &str) -> i32 {
 
-    let numbers: Vec<i32> = input.split('x').map(|s| s.parse::<i32>().unwrap()).collect();
+    let numbers: Vec<i32> = input
+        .trim_right()
+        .split('x')
+        .map(|s: &str| s.parse::<i32>().unwrap()).collect();
+
     let l = numbers[0];
     let w = numbers[1];
     let h = numbers[2];
@@ -41,7 +45,7 @@ pub fn get_dimensions(input: &str) -> i32 {
 
 pub fn calculate_bow_length(input: &str) -> i32 {
 
-    let numbers: Vec<i32> = input.split('x').map(|s| s.parse::<i32>().unwrap()).collect();
+    let numbers: Vec<i32> = input.trim_right().split('x').map(|s| s.parse::<i32>().unwrap()).collect();
     let l = numbers[0];
     let w = numbers[1];
     let h = numbers[2];
