@@ -114,6 +114,7 @@ fn test_toggle_lights() {
 #[test]
 fn test_switch_and_count_2() {
     let mut board = Board::new();
+    board.switch2((0, 0), (999, 999), "off");
     board.switch2((0, 0), (999, 999), "on");
     assert_eq!(board.count_true_squares2(), 1_000_000);
     board.switch2((0, 0), (999, 0), "off");

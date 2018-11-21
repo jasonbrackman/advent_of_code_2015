@@ -6,10 +6,10 @@
 
 pub fn get_dimensions(input: &str) -> i32 {
 
-    let numbers: Vec<i32> = input
+    let numbers = input
         .trim_right()
         .split('x')
-        .map(|s: &str| s.parse::<i32>().unwrap()).collect();
+        .map(|s: &str| s.parse::<i32>().unwrap()).collect::<Vec<i32>>();
 
     let l = numbers[0];
     let w = numbers[1];
@@ -20,9 +20,6 @@ pub fn get_dimensions(input: &str) -> i32 {
     let side_02 = w * h;
     let side_03 = h * l;
 
-    // get total wrapping
-    let wrapping = || 2 * side_01 + 2 * side_02 + 2 * side_03;
-
     // get smallest size
     let mut smallest = side_03;
     for small in [side_01, side_02].iter() {
@@ -30,6 +27,9 @@ pub fn get_dimensions(input: &str) -> i32 {
             smallest = *small;
         }
     }
+
+    // get total wrapping
+    let wrapping = || 2 * side_01 + 2 * side_02 + 2 * side_03;
 
     // calc total
     wrapping() + smallest
