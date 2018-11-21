@@ -7,3 +7,4 @@ Rust practice
 * Day_03 - Working with HashMap
 * Day_04 - md5 crate used - bit of jankiness working with u8.  Should optimize this -- but answers were found.
 * Day_05 - String Manipulation / Peeking(), split, take, ... 
+* Day_06 - Working with the regex crate and stack issues with vec / also line endings are different on mac/pc

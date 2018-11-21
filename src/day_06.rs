@@ -1,15 +1,21 @@
 extern crate regex;
-//use regex::Regex;
 
 pub struct Board {
-    squares: [[bool;1000] ;1000]
+    squares: [[bool; 1000]; 1000],
+    squares2: Vec<Vec<i32>>
 }
 
 impl Board {
     pub fn new() -> Board {
-        Board{squares:[[false; 1000]; 1000]}
+        let v1 = vec![vec![0;1000]; 1000];
+
+        Board{
+            squares:[[false; 1000]; 1000],
+            squares2:v1
+        }
     }
 
+    /// dealing with squares (Part A)
     pub fn switch(&mut self, start:(usize, usize), end:(usize, usize), state: &str) {
         let doit = |x: bool| {match state {
             "off" => false,
@@ -34,6 +40,40 @@ impl Board {
                 if self.squares[x][y] == true {
                     counter += 1
                 }
+            }
+        }
+
+        counter
+    }
+
+    /// dealing with squares2 (part B)
+    pub fn switch2(&mut self, start:(usize, usize), end:(usize, usize), state: &str) {
+        let doit = match state {
+            "off" => -1,
+            "on" => 1,
+            _ => 2
+        };
+
+        for x in 0..1000 {
+            for y in 0..1000 {
+                if x >= start.0 && x <= end.0 && y >= start.1 && y <= end.1 {
+                    self.squares2[x][y] += doit;
+
+                    // ensure we don't have a negative brightness
+                    if self.squares2[x][y] < 0 {
+                        self.squares2[x][y] = 0;
+                    }
+                }
+            }
+        }
+    }
+
+    pub fn count_true_squares2(&self) -> i32 {
+        let mut counter = 0;
+
+        for x in 0..1000 {
+            for y in 0..1000 {
+                counter += self.squares2[x][y];
             }
         }
 
@@ -69,6 +109,19 @@ fn test_toggle_lights() {
     assert_eq!(board.count_true_squares(), 998_996);
     board.switch((499, 499), (500, 500), "toggle");
     assert_eq!(board.count_true_squares(), 999_000);
+}
+
+#[test]
+fn test_switch_and_count_2() {
+    let mut board = Board::new();
+    board.switch2((0, 0), (999, 999), "on");
+    assert_eq!(board.count_true_squares2(), 1_000_000);
+    board.switch2((0, 0), (999, 0), "off");
+    assert_eq!(board.count_true_squares2(), 999_000);
+    board.switch2((499, 499), (500, 500), "off");
+    assert_eq!(board.count_true_squares2(), 998_996);
+    board.switch2((499, 499), (500, 500), "toggle");
+    assert_eq!(board.count_true_squares2(), 999_004);
 }
 
 #[test]
