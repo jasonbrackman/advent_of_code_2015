@@ -4,6 +4,7 @@ mod day_03;
 mod day_04;
 mod day_05;
 mod day_06;
+mod day_07;
 
 use std::fs::File;
 use std::io::prelude::*;
@@ -92,13 +93,24 @@ fn day_06_run() {
     println!("Day 06: Part A: {}; Part B: {}", result1, result2);
 }
 
+fn day_07_run() {
+    let path = "data/day_07.txt";
+    let lines = read(path);
+    let mut circuit = day_07::Circuit::new();
+    for line in lines.split('\n') {
+        circuit.parse_line(line);
+    }
+    println!("A: {:?}", circuit.registers.get("a"))
+}
+
 fn main() {
     day_01_run(); // Day 01: Part A: 232; Part B: 1783
     day_02_run(); // Day 02: Part A: 1588178; Part B: 3783758
     day_03_run(); // Day 03: Part A: 2592; Part B: 2360
-    day_04_run(); // Day 04: Part A: 346386; Part B: 9958218
-    day_05_run(); // Day 05: Part A: 255; Part B: 55
-    day_06_run(); // Day 06: Part A: 400410; Part B: 15343601
+    //day_04_run(); // Day 04: Part A: 346386; Part B: 9958218
+    //day_05_run(); // Day 05: Part A: 255; Part B: 55
+    //day_06_run(); // Day 06: Part A: 400410; Part B: 15343601
+    day_07_run();
 }
 
 
