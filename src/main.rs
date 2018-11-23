@@ -96,21 +96,43 @@ fn day_06_run() {
 fn day_07_run() {
     let path = "data/day_07.txt";
     let lines = read(path);
+
+    // Part A
     let mut circuit = day_07::Circuit::new();
-    for line in lines.split('\n') {
-        circuit.parse_line(line);
+    let mut total = -1;
+    while total != 0 {
+        total = 0;
+        for line in lines.split('\n') {
+            total += circuit.parse_line(line);
+        }
     }
-    println!("A: {:?}", circuit.registers.get("a"))
+    let part1 = circuit.registers["a"];
+
+    // part B
+    circuit = day_07::Circuit::new();
+    circuit.registers.insert("b".to_string(), part1);
+    let mut total = -1;
+    while total != 0 {
+        total = 0;
+        for line in lines.split('\n') {
+            if !line.contains("44430 -> b") {
+                total += circuit.parse_line(line);
+            }
+        }
+    }
+
+    println!("Day 07: Part A: {}; Part B: {}", part1, circuit.registers["a"]);
 }
 
 fn main() {
     day_01_run(); // Day 01: Part A: 232; Part B: 1783
     day_02_run(); // Day 02: Part A: 1588178; Part B: 3783758
     day_03_run(); // Day 03: Part A: 2592; Part B: 2360
-    //day_04_run(); // Day 04: Part A: 346386; Part B: 9958218
-    //day_05_run(); // Day 05: Part A: 255; Part B: 55
-    //day_06_run(); // Day 06: Part A: 400410; Part B: 15343601
-    day_07_run();
+    day_04_run(); // Day 04: Part A: 346386; Part B: 9958218
+    day_05_run(); // Day 05: Part A: 255; Part B: 55
+    day_06_run(); // Day 06: Part A: 400410; Part B: 15343601
+    day_07_run(); // Day 07: Part A: 3176; Part B: 14710
+
 }
 
 
