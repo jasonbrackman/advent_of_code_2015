@@ -38,12 +38,34 @@ pub fn get_code_character_length(input: &str) -> usize {
                     chars.push(c);
                 }
             }
-
-
         }
     }
     let x = input.len() - chars.len();
     // println!("Input [ {} ] {}; {:?}", x, input, chars);
+    x
+}
+
+pub fn get_wrapped_code_character_length(input: &str) -> usize {
+    let mut chars: Vec<char> = Vec::new();
+
+    // header
+    chars.push('"');
+
+    for c in input.chars() {
+
+        if c == '"' || c == '\\' {
+            chars.push('\\');
+        }
+
+        chars.push(c);
+
+    }
+
+    // footer
+    chars.push('"');
+
+    let x = chars.len() - input.len();
+    // println!("Difference [ {} ] Input: {}; Chars: {:?}", x, input, chars);
     x
 }
 
@@ -53,4 +75,13 @@ fn test_get_code_character_length() {
     assert_eq!(get_code_character_length("\"ab\\\\c\""), 3);
     assert_eq!(get_code_character_length("\"ab\\x27c\""), 5);
     assert_eq!(get_code_character_length("\"txqnyvzmibqgjs\\xb6xy\\x86nfalfyx\""), 8);
+}
+
+#[test]
+fn test_get_wrapped_code_character_length() {
+    assert_eq!(get_wrapped_code_character_length("\"abc\""), 4);
+    assert_eq!(get_wrapped_code_character_length("\"ab\\\\c\""), 6);
+    assert_eq!(get_wrapped_code_character_length("\"ab\\x27c\""), 5);
+    assert_eq!(get_wrapped_code_character_length("\"\\x27\""), 5);
+    assert_eq!(get_wrapped_code_character_length("\"txqnyvzmibqgjs\\xb6xy\\x86nfalfyx\""), 6);
 }

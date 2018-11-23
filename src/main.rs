@@ -131,12 +131,14 @@ fn day_08_run() {
     let lines = read(path);
 
     let mut part_a = 0;
+    let mut part_b = 0;
 
     for line in lines.split('\n') {
         part_a += day_08::get_code_character_length(line);
+        part_b += day_08::get_wrapped_code_character_length(line);
     }
 
-    println!("Day 08: Part A: {}; Part B: {}", part_a, 0);
+    println!("Day 08: Part A: {}; Part B: {}", part_a, part_b);
 }
 
 pub fn time_it(func: fn() -> ()) {
@@ -162,7 +164,7 @@ fn main() {
     time_it(day_05_run); // Day 05: Part A: 255; Part B: 55
     time_it(day_06_run); // Day 06: Part A: 400410; Part B: 15343601
     time_it(day_07_run); // Day 07: Part A: 3176; Part B: 14710
-    time_it(day_08_run); // Day 08: Part A: 1350
+    time_it(day_08_run); // Day 08: Part A: 1350; Part B: 2085
 }
 
 
