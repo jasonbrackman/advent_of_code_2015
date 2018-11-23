@@ -5,6 +5,7 @@ mod day_04;
 mod day_05;
 mod day_06;
 mod day_07;
+mod day_08;
 
 use std::fs::File;
 use std::io::prelude::*;
@@ -125,6 +126,19 @@ fn day_07_run() {
     println!("Day 07: Part A: {}; Part B: {}", part1, circuit.registers["a"]);
 }
 
+fn day_08_run() {
+    let path = "data/day_08.txt";
+    let lines = read(path);
+
+    let mut part_a = 0;
+
+    for line in lines.split('\n') {
+        part_a += day_08::get_code_character_length(line);
+    }
+
+    println!("Day 08: Part A: {}; Part B: {}", part_a, 0);
+}
+
 pub fn time_it(func: fn() -> ()) {
     // Marker for benchmarking start
     let start = Instant::now();
@@ -141,7 +155,6 @@ pub fn time_it(func: fn() -> ()) {
 
 fn main() {
 
-
     time_it(day_01_run); // Day 01: Part A: 232; Part B: 1783
     time_it(day_02_run); // Day 02: Part A: 1588178; Part B: 3783758
     time_it(day_03_run); // Day 03: Part A: 2592; Part B: 2360
@@ -149,7 +162,7 @@ fn main() {
     time_it(day_05_run); // Day 05: Part A: 255; Part B: 55
     time_it(day_06_run); // Day 06: Part A: 400410; Part B: 15343601
     time_it(day_07_run); // Day 07: Part A: 3176; Part B: 14710
-
+    time_it(day_08_run); // Day 08: Part A: 1350
 }
 
 
