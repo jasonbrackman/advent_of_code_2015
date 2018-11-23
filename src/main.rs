@@ -8,6 +8,7 @@ mod day_07;
 
 use std::fs::File;
 use std::io::prelude::*;
+use std::time::Instant;
 
 fn read(path: &str) -> String {
     let mut f = File::open(path).expect("file not found");
@@ -124,14 +125,30 @@ fn day_07_run() {
     println!("Day 07: Part A: {}; Part B: {}", part1, circuit.registers["a"]);
 }
 
+pub fn time_it(func: fn() -> ()) {
+    // Marker for benchmarking start
+    let start = Instant::now();
+
+    func();
+
+    // Benchmarking
+    let time = Instant::now() - start;
+    let time_secs = time.as_secs();
+    let time_millis = time.subsec_millis();
+
+    println!("\t|-> Done in {} seconds.", time_secs as f32 + time_millis as f32 / 1000.0);
+}
+
 fn main() {
-    day_01_run(); // Day 01: Part A: 232; Part B: 1783
-    day_02_run(); // Day 02: Part A: 1588178; Part B: 3783758
-    day_03_run(); // Day 03: Part A: 2592; Part B: 2360
-    day_04_run(); // Day 04: Part A: 346386; Part B: 9958218
-    day_05_run(); // Day 05: Part A: 255; Part B: 55
-    day_06_run(); // Day 06: Part A: 400410; Part B: 15343601
-    day_07_run(); // Day 07: Part A: 3176; Part B: 14710
+
+
+    time_it(day_01_run); // Day 01: Part A: 232; Part B: 1783
+    time_it(day_02_run); // Day 02: Part A: 1588178; Part B: 3783758
+    time_it(day_03_run); // Day 03: Part A: 2592; Part B: 2360
+    time_it(day_04_run); // Day 04: Part A: 346386; Part B: 9958218
+    time_it(day_05_run); // Day 05: Part A: 255; Part B: 55
+    time_it(day_06_run); // Day 06: Part A: 400410; Part B: 15343601
+    time_it(day_07_run); // Day 07: Part A: 3176; Part B: 14710
 
 }
 
