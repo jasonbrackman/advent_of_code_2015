@@ -6,6 +6,7 @@ mod day_05;
 mod day_06;
 mod day_07;
 mod day_08;
+mod day_09;
 
 use std::fs::File;
 use std::io::prelude::*;
@@ -23,9 +24,15 @@ fn read(path: &str) -> String {
 fn day_01_run() {
     let path = "data/day_01.txt";
     let data = read(path);
-    println!("Day 01: Part A: {}; Part B: {}",
-             day_01::what_floor(&data),
-             day_01::which_index_is_basement(&data));
+
+    let part_a = day_01::what_floor(&data);
+    let part_b = day_01::which_index_is_basement(&data);
+
+    assert_eq!(part_a, 232);
+    assert_eq!(part_b, 1783);
+
+    println!("Day 01: Part A: {}; Part B: {}", part_a, part_b);
+
 }
 
 fn day_02_run() {
@@ -49,6 +56,10 @@ fn day_03_run() {
     let data = read(path);
     let stops = day_03::get_stops(&data);
     let robo_stops = day_03::get_stops_with_robo(&data);
+
+    assert_eq!(stops.0, 2592);
+    assert_eq!(robo_stops, 2360);
+
     println!("Day 03: Part A: {}; Part B: {}", stops.0, robo_stops);
 }
 
@@ -141,6 +152,15 @@ fn day_08_run() {
     println!("Day 08: Part A: {}; Part B: {}", part_a, part_b);
 }
 
+fn day_09_run() {
+    let path = "data/day_09.txt";
+    let lines = read(path);
+
+    let (part_a, part_b) = day_09::create_nd_array_of_cities(lines);
+
+    println!("Day 09: Part A: {}; Part B: {}", part_a, part_b);
+}
+
 pub fn time_it(func: fn() -> ()) {
     // Marker for benchmarking start
     let start = Instant::now();
@@ -165,6 +185,7 @@ fn main() {
     time_it(day_06_run); // Day 06: Part A: 400410; Part B: 15343601
     time_it(day_07_run); // Day 07: Part A: 3176; Part B: 14710
     time_it(day_08_run); // Day 08: Part A: 1350; Part B: 2085
+    time_it(day_09_run); // Day 09: Part A: 117; Part B: 909
 }
 
 
