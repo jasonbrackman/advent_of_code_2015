@@ -37,10 +37,10 @@ pub fn get_stops_with_robo(input: &str) -> i32 {
     // need to split input into odds and evens -- then resend to get_directions()
     let mut odds = Vec::new();
     let mut evens = Vec::new();
-    for c in input.chars().map(|x| x.to_string()).enumerate() {
-       match c.0 as i32 % 2 {
-           0 => evens.push(c.1),
-           _ => odds.push(c.1)
+    for (index,character) in input.chars().map(|x| x.to_string()).enumerate() {
+       match index as i32 % 2 {
+           0 => evens.push(character),
+           _ => odds.push(character)
        }
     }
 
@@ -50,11 +50,8 @@ pub fn get_stops_with_robo(input: &str) -> i32 {
     let (_, hmap2) = get_stops(&line2);
 
     let mut counter = 0;
-    for (_, v) in hmap1.iter() {
-        if *v > 0 {
-            counter += 1;
-        }
-    }
+    hmap1.iter().for_each(|(_, y)| if *y > 0 { counter += 1});
+
 
     for (k, v) in hmap2.iter() {
         if hmap1.contains_key(k) == false && *v > 0 {

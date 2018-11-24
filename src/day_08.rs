@@ -52,13 +52,10 @@ pub fn get_wrapped_code_character_length(input: &str) -> usize {
     chars.push('"');
 
     for c in input.chars() {
-
         if c == '"' || c == '\\' {
             chars.push('\\');
         }
-
         chars.push(c);
-
     }
 
     // footer
