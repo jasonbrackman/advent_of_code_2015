@@ -56,7 +56,7 @@ pub fn create_nd_array_of_cities(lines: String) -> (i32, i32) {
 
 #[test]
 fn test_create_nd_array_of_cities() {
-    assert_eq!(create_nd_array_of_cities("l to d = 464\nl to b = 518\nd to b = 141".to_string()), 605);
+    assert_eq!(create_nd_array_of_cities("l to d = 464\nl to b = 518\nd to b = 141".to_string()), (605, 982));
 }
 
 
