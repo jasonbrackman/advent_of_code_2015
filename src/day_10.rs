@@ -1,7 +1,7 @@
 extern crate regex;
 
 
-pub fn get_count(input: &str, pattern: char) -> i32 {
+fn get_count(input: &str, pattern: char) -> i32 {
     let mut counter = 0;
     for item in input.chars() {
         if item == pattern {
@@ -37,42 +37,6 @@ pub fn parse_string(input: &str) -> String {
 
     output
 }
-
-//pub fn get_next_number(input: &str) -> String {
-//
-//
-//    let mut temp = '-';
-//
-//    let mut count: u32 = 1;
-//
-//    let mut output = "".to_string();
-//
-//    for item in input.chars() {
-//        // deal with a repeat
-//        if item == temp {
-//            count += 1;
-//        } else {
-//            if count == 1 {
-//                temp = item;
-//
-//            }
-//            if count > 1 {
-//                output.push(count.to_string().parse().unwrap());
-//                output.push(temp.to_owned());
-//                temp = item;
-//                count = 1;
-//            }
-//
-//            //temp = item;
-//        }
-//    }
-//
-//    output.push(count.to_string().parse().unwrap());
-//    output.push(temp.to_owned());
-//
-//
-//    output
-//}
 
 #[test]
 fn test_get_next_number() {
