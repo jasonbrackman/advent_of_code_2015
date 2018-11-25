@@ -164,12 +164,33 @@ fn day_09_run() {
     let path = "data/day_09.txt";
     let lines = read(path);
 
-    let (part_a, part_b) = day_09::create_nd_array_of_cities(lines);
+    let (part_a, part_b) = day_09::create_nd_array_of_cities(&lines);
 
     assert_eq!(part_a, 117);
     assert_eq!(part_b, 909);
 
     println!("Day 09: Part A: {}; Part B: {}", part_a, part_b);
+}
+
+fn day_10_run() {
+    let mut input = "1113122113".to_string();
+    let mut part_a = 0;
+    let mut part_b = 0;
+
+    for index in 0..51 {
+        if index == 40 {
+            part_a = input.len();
+        } else if index == 50 {
+            part_b = input.len();
+        }
+
+        input = day_10::parse_string(&input);
+    }
+
+    assert_eq!(part_a, 360_154);
+    assert_eq!(part_b, 5_103_798);
+
+    println!("Day 10: Part A: {}; Part B: {}", part_a, part_b);
 }
 
 pub fn time_it(func: fn() -> ()) {
@@ -197,6 +218,7 @@ fn main() {
     time_it(day_07_run); // Day 07: Part A: 3176; Part B: 14710
     time_it(day_08_run); // Day 08: Part A: 1350; Part B: 2085
     time_it(day_09_run); // Day 09: Part A: 117; Part B: 909
+    time_it(day_10_run); // Day 10: Part A: 360154; Part B: 5103798
 }
 
 
