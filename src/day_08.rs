@@ -29,20 +29,16 @@ pub fn get_code_character_length(input: &str) -> usize {
 
                 stop_push_for -= 1;
 
-            } else {
-                if c == '\\' {
-                    stop_push_for = 1;
-                }
-
-                else if c != '"' {
-                    chars.push(c);
-                }
+            } else if c == '\\' {
+                stop_push_for = 1;
+            } else if c != '"' {
+                chars.push(c);
             }
+
         }
     }
-    let x = input.len() - chars.len();
-    // println!("Input [ {} ] {}; {:?}", x, input, chars);
-    x
+
+    input.len() - chars.len()
 }
 
 pub fn get_wrapped_code_character_length(input: &str) -> usize {
@@ -61,9 +57,8 @@ pub fn get_wrapped_code_character_length(input: &str) -> usize {
     // footer
     chars.push('"');
 
-    let x = chars.len() - input.len();
-    // println!("Difference [ {} ] Input: {}; Chars: {:?}", x, input, chars);
-    x
+    chars.len() - input.len()
+
 }
 
 #[test]

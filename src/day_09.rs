@@ -14,7 +14,7 @@
 extern crate permutohedron;
 use std::collections::HashMap;
 
-pub fn create_nd_array_of_cities(lines: String) -> (i32, i32) {
+pub fn create_nd_array_of_cities(lines: &str) -> (i32, i32) {
     let mut hmap: HashMap<(&str, &str), i32> = HashMap::new();
 
     // part one: Obtain all of the places
@@ -57,7 +57,7 @@ pub fn create_nd_array_of_cities(lines: String) -> (i32, i32) {
 #[test]
 fn test_create_nd_array_of_cities() {
     assert_eq!(
-        create_nd_array_of_cities("l to d = 464\nl to b = 518\nd to b = 141".to_string()),
+        create_nd_array_of_cities("l to d = 464\nl to b = 518\nd to b = 141"),
         (605, 982));
 }
 
