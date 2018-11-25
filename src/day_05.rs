@@ -54,13 +54,12 @@ fn contains_bad_combos(input: &str) -> bool {
             return true;
         }
     }
-    return false;
+
+    false
 }
 
 pub fn follows_all_rules(input: &str) -> bool {
-    contains_bad_combos(input) == false &&
-        contains_three_vowels(input) &&
-        contains_duplicated_letter(input, 0)
+    !contains_bad_combos(input) && contains_three_vowels(input) && contains_duplicated_letter(input, 0)
 }
 
 pub fn follows_new_rules(input: &str) -> bool {

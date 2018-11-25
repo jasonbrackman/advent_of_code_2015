@@ -23,7 +23,7 @@ pub fn get_dimensions(input: &str) -> i32 {
     // get smallest size
     let mut smallest = side_03;
     for small in [side_01, side_02].iter() {
-        if small < &smallest {
+        if *small < smallest {
             smallest = *small;
         }
     }
@@ -50,7 +50,7 @@ pub fn calculate_bow_length(input: &str) -> i32 {
     let w = numbers[1];
     let h = numbers[2];
 
-    let wrap_size = &l * &w * &h;
+    let wrap_size = l * w * h;
 
     let mut ribbon = 0;
     for item in [l, w, h].iter() {
@@ -58,7 +58,7 @@ pub fn calculate_bow_length(input: &str) -> i32 {
     }
 
     let x = *[l, w, h].iter().max().unwrap();
-    ribbon = ribbon - 2 * x;
+    ribbon -= 2 * x;
 
     ribbon + wrap_size
 

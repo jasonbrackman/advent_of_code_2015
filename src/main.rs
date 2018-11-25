@@ -7,6 +7,7 @@ mod day_06;
 mod day_07;
 mod day_08;
 mod day_09;
+mod day_10;
 
 use std::fs::File;
 use std::io::prelude::*;
@@ -41,13 +42,16 @@ fn day_02_run() {
 
     let mut total = 0;
     for line in lines.split('\n') {
-        total = total + day_02::get_dimensions(line);
+        total += day_02::get_dimensions(line);
     }
 
     let mut ribbon_total = 0;
     for line in lines.split('\n') {
-        ribbon_total = ribbon_total + day_02::calculate_bow_length(line);
+        ribbon_total += day_02::calculate_bow_length(line);
     }
+
+    assert_eq!(total, 1_588_178);
+    assert_eq!(ribbon_total, 3_783_758);
     println!("Day 02: Part A: {}; Part B: {}", total, ribbon_total);
 }
 
@@ -67,6 +71,10 @@ fn day_03_run() {
 fn day_04_run() {
     let result1 = day_04::get_md5_with_prefix("iwrupvqb", 5);
     let result2 = day_04::get_md5_with_prefix("iwrupvqb", 6);
+
+    assert_eq!(result1, 346_386);
+    assert_eq!(result2, 9_958_218);
+
     println!("Day 04: Part A: {}; Part B: {}", result1, result2);
 }
 
@@ -157,6 +165,9 @@ fn day_09_run() {
     let lines = read(path);
 
     let (part_a, part_b) = day_09::create_nd_array_of_cities(lines);
+
+    assert_eq!(part_a, 117);
+    assert_eq!(part_b, 909);
 
     println!("Day 09: Part A: {}; Part B: {}", part_a, part_b);
 }

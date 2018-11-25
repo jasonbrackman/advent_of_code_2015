@@ -37,7 +37,7 @@ impl Board {
 
         for x in 0..1000 {
             for y in 0..1000 {
-                if self.squares[x][y] == true {
+                if self.squares[x][y] {
                     counter += 1
                 }
             }

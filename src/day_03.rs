@@ -25,7 +25,7 @@ pub fn get_stops(input: &str) -> (i32, HashMap<(i32, i32), i32>) {
     for _ in hmap
         .iter()
         .map(|(_, v)|  {
-                if v > &0 {
+                if *v > 0 {
                     counter += 1 }
             }) {};
 
@@ -54,7 +54,7 @@ pub fn get_stops_with_robo(input: &str) -> i32 {
 
 
     for (k, v) in hmap2.iter() {
-        if hmap1.contains_key(k) == false && *v > 0 {
+        if !hmap1.contains_key(k) && *v > 0 {
             counter += 1;
         }
     }

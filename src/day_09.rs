@@ -20,7 +20,7 @@ pub fn create_nd_array_of_cities(lines: String) -> (i32, i32) {
     // part one: Obtain all of the places
     let mut destinations = Vec::new();
     for line in lines.split('\n') {
-        let x: Vec<&str> = line.split(" ").map(str::trim).collect();
+        let x: Vec<&str> = line.split(' ').map(str::trim).collect();
         if !destinations.contains(&x[0]) {
             destinations.push(x[0]);
         }
@@ -56,7 +56,9 @@ pub fn create_nd_array_of_cities(lines: String) -> (i32, i32) {
 
 #[test]
 fn test_create_nd_array_of_cities() {
-    assert_eq!(create_nd_array_of_cities("l to d = 464\nl to b = 518\nd to b = 141".to_string()), (605, 982));
+    assert_eq!(
+        create_nd_array_of_cities("l to d = 464\nl to b = 518\nd to b = 141".to_string()),
+        (605, 982));
 }
 
 
