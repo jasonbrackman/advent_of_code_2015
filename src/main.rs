@@ -9,6 +9,7 @@ mod day_08;
 mod day_09;
 mod day_10;
 mod day_11;
+mod day_12;
 
 use std::fs::File;
 use std::io::prelude::*;
@@ -204,6 +205,13 @@ fn day_11_run() {
     println!("Day 11: Part A: {}; Part B: {}", part_a, part_b);
 
 }
+
+fn day_12_run() {
+    let path = "data/day_12.json";
+    let lines = read(path);
+    let part_a = day_12::search_for_numbers(&lines);
+    println!("Day 12: Part A: {}; Part B: {}", part_a, 0);
+}
 pub fn time_it(func: fn() -> ()) {
     // Marker for benchmarking start
     let start = Instant::now();
@@ -231,6 +239,7 @@ fn main() {
     time_it(day_09_run); // Day 09: Part A: 117; Part B: 909
     time_it(day_10_run); // Day 10: Part A: 360154; Part B: 5103798
     time_it(day_11_run); // Day 11: Part A: cqjxxyzz; Part B: cqkaabcc
+    time_it(day_12_run); //
 }
 
 
