@@ -8,6 +8,7 @@ mod day_07;
 mod day_08;
 mod day_09;
 mod day_10;
+mod day_11;
 
 use std::fs::File;
 use std::io::prelude::*;
@@ -193,6 +194,16 @@ fn day_10_run() {
     println!("Day 10: Part A: {}; Part B: {}", part_a, part_b);
 }
 
+fn day_11_run() {
+    let part_a = day_11::iterate_next_with_rules("cqjxjnds");
+    let part_b = day_11::iterate_next_with_rules("cqjxxyzz");
+
+    assert_eq!(part_a, "cqjxxyzz");
+    assert_eq!(part_b, "cqkaabcc");
+
+    println!("Day 11: Part A: {}; Part B: {}", part_a, part_b);
+
+}
 pub fn time_it(func: fn() -> ()) {
     // Marker for benchmarking start
     let start = Instant::now();
@@ -219,6 +230,7 @@ fn main() {
     time_it(day_08_run); // Day 08: Part A: 1350; Part B: 2085
     time_it(day_09_run); // Day 09: Part A: 117; Part B: 909
     time_it(day_10_run); // Day 10: Part A: 360154; Part B: 5103798
+    time_it(day_11_run); // Day 11: Part A: cqjxxyzz; Part B: cqkaabcc
 }
 
 
