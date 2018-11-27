@@ -210,7 +210,12 @@ fn day_12_run() {
     let path = "data/day_12.json";
     let lines = read(path);
     let part_a = day_12::search_for_numbers(&lines);
-    println!("Day 12: Part A: {}; Part B: {}", part_a, 0);
+    let remove = day_12::search_for_red_numbers(&lines);
+
+    assert_eq!(part_a, 156_366);
+    // assert_eq!(part_a - remove, 22_286);
+
+    println!("Day 12: Part A: {}; Part B: {}", part_a, part_a - remove);
 }
 pub fn time_it(func: fn() -> ()) {
     // Marker for benchmarking start
