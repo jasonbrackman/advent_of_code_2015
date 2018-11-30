@@ -1,3 +1,12 @@
+
+extern crate serde_json;
+extern crate regex;
+
+use std::thread;
+use std::fs::File;
+use std::io::prelude::*;
+use std::time::Instant;
+
 mod day_01;
 mod day_02;
 mod day_03;
@@ -11,9 +20,7 @@ mod day_10;
 mod day_11;
 mod day_12;
 
-use std::fs::File;
-use std::io::prelude::*;
-use std::time::Instant;
+
 
 fn read(path: &str) -> String {
     let mut f = File::open(path).expect("file not found");
@@ -209,13 +216,16 @@ fn day_11_run() {
 fn day_12_run() {
     let path = "data/day_12.json";
     let lines = read(path);
+
+
     let part_a = day_12::search_for_numbers(&lines);
-    let remove = day_12::search_for_red_numbers(&lines);
+    let part_b = day_12::read_json(&lines);
+    //let remove = day_12::search_for_red_numbers(&lines);
 
     assert_eq!(part_a, 156_366);
-    // assert_eq!(part_a - remove, 22_286);
+    assert_eq!(part_b, 96_852);
 
-    println!("Day 12: Part A: {}; Part B: {}", part_a, part_a - remove);
+    println!("Day 12: Part A: {}; Part B: {}", part_a, part_b);
 }
 pub fn time_it(func: fn() -> ()) {
     // Marker for benchmarking start
@@ -232,19 +242,23 @@ pub fn time_it(func: fn() -> ()) {
 }
 
 fn main() {
+    let mut threads = Vec::new();
+    threads.push(thread::spawn(||{ time_it(day_01_run) })); // Day 01: Part A: 232; Part B: 1783
+    threads.push(thread::spawn(||{ time_it(day_02_run) })); // Day 02: Part A: 1588178; Part B: 3783758
+    threads.push(thread::spawn(||{ time_it(day_03_run) })); // Day 03: Part A: 2592; Part B: 2360
+    threads.push(thread::spawn(||{ time_it(day_04_run) })); // Day 04: Part A: 346386; Part B: 9958218
+    threads.push(thread::spawn(||{ time_it(day_05_run) })); // Day 05: Part A: 255; Part B: 55
+    threads.push(thread::spawn(||{ time_it(day_06_run) })); // Day 06: Part A: 400410; Part B: 15343601
+    threads.push(thread::spawn(||{ time_it(day_07_run) })); // Day 07: Part A: 3176; Part B: 14710
+    threads.push(thread::spawn(||{ time_it(day_08_run) })); // Day 08: Part A: 1350; Part B: 2085
+    threads.push(thread::spawn(||{ time_it(day_09_run) })); // Day 09: Part A: 117; Part B: 909
+    threads.push(thread::spawn(||{ time_it(day_10_run) })); // Day 10: Part A: 360154; Part B: 5103798
+    threads.push(thread::spawn(||{ time_it(day_11_run) })); // Day 11: Part A: cqjxxyzz; Part B: cqkaabcc
+    threads.push(thread::spawn(||{ time_it(day_12_run) })); // Day 12: Part A: 156366; Part B: 96852
 
-    time_it(day_01_run); // Day 01: Part A: 232; Part B: 1783
-    time_it(day_02_run); // Day 02: Part A: 1588178; Part B: 3783758
-    time_it(day_03_run); // Day 03: Part A: 2592; Part B: 2360
-    time_it(day_04_run); // Day 04: Part A: 346386; Part B: 9958218
-    time_it(day_05_run); // Day 05: Part A: 255; Part B: 55
-    time_it(day_06_run); // Day 06: Part A: 400410; Part B: 15343601
-    time_it(day_07_run); // Day 07: Part A: 3176; Part B: 14710
-    time_it(day_08_run); // Day 08: Part A: 1350; Part B: 2085
-    time_it(day_09_run); // Day 09: Part A: 117; Part B: 909
-    time_it(day_10_run); // Day 10: Part A: 360154; Part B: 5103798
-    time_it(day_11_run); // Day 11: Part A: cqjxxyzz; Part B: cqkaabcc
-    time_it(day_12_run); //
+    for item in threads {
+        item.join().expect("Thread failed...");
+    }
 }
 
 

@@ -13,4 +13,4 @@ Rust practice
 * Day_09 - Used the 'permutohedron' crate (permutation). Also worked with Vec.sort() - sort needs to be called for some reason on its own line.  You can't println!() it, for example.
 * Day_10 - Was running in release and part_b only took 1.1s but guessing this would have been quite longer outside of rust?  Also the code is pretty ugly here -- so optimizations are likely :).
 * Day_11 - This was pretty sloppy -- mostly string manipulations -- but runs extremely quickly in release -- didn't even bother to work on some optimizations.
-* Day_12 - 
+* Day_12 - Serde Crate introduced.... complicated to get started, need to work with it more....

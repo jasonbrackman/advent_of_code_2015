@@ -40,13 +40,19 @@ fn get_next(input: &str) -> String {
 
 fn get_next_character(characters: &str, index: usize) -> char {
     let next_character_index = if index < characters.len() - 1 {index + 1} else {0};
-    characters.chars().nth(next_character_index).unwrap()
+    match characters.chars().nth(next_character_index) {
+        Some(x) => x,
+        None => unimplemented!(),
+    }
 }
 
 fn get_index(input: &str, characters: &str, last: usize) -> usize {
     characters
         .chars()
-        .position(|c| c == input.chars().nth(last).unwrap())
+        .position(|c| c == match input.chars().nth(last) {
+            Some(x) => x,
+            None => unimplemented!(),
+        })
         .expect("What Happened?")
 
 }
