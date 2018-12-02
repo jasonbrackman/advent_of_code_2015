@@ -34,16 +34,6 @@ impl GuestPair {
                   secondary:secondary.to_string(),
                   happiness}
     }
-
-//    pub fn get_score(self, p: String, s: String) -> Result<i64, String> {
-//        if self.primary == p && self.secondary == s || self.primary == s && self.secondary == p {
-//            let total = self.happiness;
-//            Ok(total)
-//        }
-//        else {
-//            Err("Not valid.".to_string())
-//        }
-//    }
 }
 
 pub fn organize_data(input: &str) {
@@ -74,13 +64,14 @@ pub fn organize_data(input: &str) {
 
     let mut best_score = -500;
     for p in permutations.iter() {
-        println!("{:?}", p);
+        let mut temp = p.clone();
+        temp.push(p[0].clone());
         let mut score = 0;
-        for (name1, name2) in p.iter().zip(p[1..].iter()) {
+        for (name1, name2) in temp.iter().zip(temp[1..].iter()) {
             let x = &hmap[&(name1.to_string(), name2.to_string())];
             let y= &hmap[&(name2.to_string(), name1.to_string())];
 
-            //println!("{}-{}={}", name1, name2, x);
+            // println!("{}-{}={}", name1, name2, x);
             //println!("{}-{}={}", name2, name1, y);
             score = score + x + y;
         }
@@ -88,7 +79,7 @@ pub fn organize_data(input: &str) {
         if score > best_score {
             best_score = score;
         }
-        println!("Total Score: {}", score);
+        // println!("Total Score: {}: {:?}", score, p);
     }
 
     println!("Part_a: {}", best_score);
