@@ -11,7 +11,7 @@
 /// Belfast -> Dublin -> London = 605
 /// Belfast -> London -> Dublin = 982
 
-extern crate permutohedron;
+use permutohedron;
 use std::collections::HashMap;
 
 pub fn create_nd_array_of_cities(lines: &str) -> (i32, i32) {

@@ -1,6 +1,7 @@
 
-extern crate serde_json;
 extern crate regex;
+extern crate serde_json;
+extern crate permutohedron;
 
 use std::thread;
 use std::fs::File;
@@ -19,7 +20,7 @@ mod day_09;
 mod day_10;
 mod day_11;
 mod day_12;
-
+mod day_13;
 
 
 fn read(path: &str) -> String {
@@ -89,11 +90,11 @@ fn day_04_run() {
 
 fn day_05_run() {
     let path = "data/day_05.txt";
-    let lines = read(path);
+    let data = read(path);
 
     let mut total_nice = 0;
     let mut total_nice_new = 0;
-    for line in lines.split('\n') {
+    for line in data.lines() {
         if day_05::follows_all_rules(line) {
             total_nice += 1;
         }
@@ -220,12 +221,17 @@ fn day_12_run() {
 
     let part_a = day_12::search_for_numbers(&lines);
     let part_b = day_12::read_json(&lines);
-    //let remove = day_12::search_for_red_numbers(&lines);
 
     assert_eq!(part_a, 156_366);
     assert_eq!(part_b, 96_852);
 
     println!("Day 12: Part A: {}; Part B: {}", part_a, part_b);
+}
+
+fn day_13_run() {
+    let path = "data/day_13.txt";
+    let lines = read(path);
+    day_13::organize_data(&lines);
 }
 pub fn time_it(func: fn() -> ()) {
     // Marker for benchmarking start
@@ -255,6 +261,7 @@ fn main() {
     threads.push(thread::spawn(||{ time_it(day_10_run) })); // Day 10: Part A: 360154; Part B: 5103798
     threads.push(thread::spawn(||{ time_it(day_11_run) })); // Day 11: Part A: cqjxxyzz; Part B: cqkaabcc
     threads.push(thread::spawn(||{ time_it(day_12_run) })); // Day 12: Part A: 156366; Part B: 96852
+    threads.push(thread::spawn(||{ time_it(day_13_run) })); // Day 12: Part A: 156366; Part B: 96852
 
     for item in threads {
         item.join().expect("Thread failed...");
