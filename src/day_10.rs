@@ -13,6 +13,10 @@ fn get_count(input: &str, pattern: char) -> i32 {
     counter
 }
 
+/// For each character, discover how many times it is repeated and reassemble the string with the
+/// repetitions preceeding the actual digit.  For example:
+/// -> 21 becomes 1211
+/// -> 1211 becomes 111221
 pub fn parse_string(input: &str) -> String {
 
     let mut output = "".to_string();
