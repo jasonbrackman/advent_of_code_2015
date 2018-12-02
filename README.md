@@ -14,3 +14,4 @@ Rust practice
 * Day_10 - Was running in release and part_b only took 1.1s but guessing this would have been quite longer outside of rust?  Also the code is pretty ugly here -- so optimizations are likely :).
 * Day_11 - This was pretty sloppy -- mostly string manipulations -- but runs extremely quickly in release -- didn't even bother to work on some optimizations.
 * Day_12 - Serde Crate introduced.... complicated to get started, need to work with it more....
+* Day_13 - This one felt hacky -- but in a good way -- just freeflowing and grabbing whatever would work.

@@ -231,7 +231,16 @@ fn day_12_run() {
 fn day_13_run() {
     let path = "data/day_13.txt";
     let lines = read(path);
-    day_13::organize_data(&lines);
+
+    let include_me = true;
+    let part_a = day_13::organize_data(&lines, !include_me);
+    let part_b = day_13::organize_data(&lines, include_me);
+
+    assert_eq!(part_a, 733);
+    assert_eq!(part_b, 725);
+
+    println!("Day 13: Part A: {}; Part B: {}", part_a, part_b);
+
 }
 pub fn time_it(func: fn() -> ()) {
     // Marker for benchmarking start
@@ -261,7 +270,7 @@ fn main() {
     threads.push(thread::spawn(||{ time_it(day_10_run) })); // Day 10: Part A: 360154; Part B: 5103798
     threads.push(thread::spawn(||{ time_it(day_11_run) })); // Day 11: Part A: cqjxxyzz; Part B: cqkaabcc
     threads.push(thread::spawn(||{ time_it(day_12_run) })); // Day 12: Part A: 156366; Part B: 96852
-    threads.push(thread::spawn(||{ time_it(day_13_run) })); // Day 12: Part A: 156366; Part B: 96852
+    threads.push(thread::spawn(||{ time_it(day_13_run) })); // Day 13: Part A: 733; Part B: 725
 
     for item in threads {
         item.join().expect("Thread failed...");

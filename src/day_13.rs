@@ -36,24 +36,34 @@ impl GuestPair {
     }
 }
 
-pub fn organize_data(input: &str) {
+pub fn organize_data(input: &str, include_me: bool) -> i64 {
     let stuff: Vec<GuestPair> = input
         .lines()
         .map(|l| GuestPair::new(l)).collect();
 
     let mut hmap = HashMap::new();
-
+    let me = "Jason".to_string();
     let mut guests: Vec<String> = Vec::new();
+    if include_me {
+
+        guests.push(me.to_string());
+    }
+
+
     for item in stuff.iter() {
         hmap.entry((item.primary.to_string(), item.secondary.to_string())).or_insert(item.happiness);
-        // hmap.entry((item.secondary.to_string(), item.primary.to_string())).or_insert(item.happiness);
+        if include_me {
+            hmap.entry((item.primary.to_string(), me.to_string())).or_insert(0);
+            hmap.entry((me.to_string(), item.secondary.to_string())).or_insert(0);
+        }
 
         if !guests.contains(&item.primary) {
             guests.push(item.primary.to_string());
         }
         if !guests.contains(&item.secondary) {
             guests.push(item.secondary.to_string())};
-    }
+        }
+
 
     // generate all combinations
     let mut permutations = Vec::new();
@@ -72,7 +82,7 @@ pub fn organize_data(input: &str) {
             let y= &hmap[&(name2.to_string(), name1.to_string())];
 
             // println!("{}-{}={}", name1, name2, x);
-            //println!("{}-{}={}", name2, name1, y);
+            // println!("{}-{}={}", name2, name1, y);
             score = score + x + y;
         }
 
@@ -82,9 +92,9 @@ pub fn organize_data(input: &str) {
         // println!("Total Score: {}: {:?}", score, p);
     }
 
-    println!("Part_a: {}", best_score);
+    // println!("Part_a: {}", best_score);
 
-    // not 476 & 590 & 725 -- too low?
+    best_score
 
 }
 
