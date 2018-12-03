@@ -21,6 +21,7 @@ mod day_10;
 mod day_11;
 mod day_12;
 mod day_13;
+mod day_14;
 
 
 fn read(path: &str) -> String {
@@ -242,6 +243,22 @@ fn day_13_run() {
     println!("Day 13: Part A: {}; Part B: {}", part_a, part_b);
 
 }
+
+fn day_14_run() {
+    let path = "data/day_14.txt";
+    let data = read(path);
+
+    let rules = day_14::prepare_rules(&data);
+    let _part_a = day_14::race(rules, 2503);
+    let _part_b = 0;
+    day_14::award_point_for_each_win(_part_a);
+    //assert_eq!(part_a, 0);
+    //assert_eq!(part_b, 0);
+
+    //println!("Day 14: Part A: {:?}; Part B: {}", part_a, part_b);
+
+}
+
 pub fn time_it(func: fn() -> ()) {
     // Marker for benchmarking start
     let start = Instant::now();
@@ -271,6 +288,7 @@ fn main() {
     threads.push(thread::spawn(||{ time_it(day_11_run) })); // Day 11: Part A: cqjxxyzz; Part B: cqkaabcc
     threads.push(thread::spawn(||{ time_it(day_12_run) })); // Day 12: Part A: 156366; Part B: 96852
     threads.push(thread::spawn(||{ time_it(day_13_run) })); // Day 13: Part A: 733; Part B: 725
+    threads.push(thread::spawn(||{ time_it(day_14_run) })); // Day 14: Part A: __; Part B: __
 
     for item in threads {
         item.join().expect("Thread failed...");
