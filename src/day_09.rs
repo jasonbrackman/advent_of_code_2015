@@ -19,7 +19,7 @@ pub fn create_nd_array_of_cities(lines: &str) -> (i32, i32) {
 
     // part one: Obtain all of the places
     let mut destinations = Vec::new();
-    for line in lines.split('\n') {
+    for line in lines.lines() {
         let x: Vec<&str> = line.split(' ').map(str::trim).collect();
         if !destinations.contains(&x[0]) {
             destinations.push(x[0]);

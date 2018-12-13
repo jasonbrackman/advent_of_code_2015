@@ -2,32 +2,30 @@ extern crate regex;
 
 pub struct Board {
     squares: [[bool; 1000]; 1000],
-    squares2: Vec<Vec<i32>>
+    squares2: Vec<Vec<i32>>,
 }
 
 impl Board {
     pub fn new() -> Board {
-        let v1 = vec![vec![0;1000]; 1000];
+        let v1 = vec![vec![0; 1000]; 1000];
 
-        Board{
-            squares:[[false; 1000]; 1000],
-            squares2:v1
+        Board {
+            squares: [[false; 1000]; 1000],
+            squares2: v1,
         }
     }
 
     /// dealing with squares (Part A)
-    pub fn switch(&mut self, start:(usize, usize), end:(usize, usize), state: &str) {
-        let doit = |x: bool| {match state {
+    pub fn switch(&mut self, start: (usize, usize), end: (usize, usize), state: &str) {
+        let doit = |x: bool| match state {
             "off" => false,
             "on" => true,
-            _ => !x
-        }};
+            _ => !x,
+        };
 
-        for x in 0..1000 {
-            for y in 0..1000 {
-                if x >= start.0 && x <= end.0 && y >= start.1 && y <= end.1 {
-                    self.squares[x][y] = doit(self.squares[x][y]);
-                }
+        for x in start.0..=end.0 {
+            for y in start.1..=end.1 {
+                self.squares[x][y] = doit(self.squares[x][y]);
             }
         }
     }
@@ -47,22 +45,20 @@ impl Board {
     }
 
     /// dealing with squares2 (part B)
-    pub fn switch2(&mut self, start:(usize, usize), end:(usize, usize), state: &str) {
+    pub fn switch2(&mut self, start: (usize, usize), end: (usize, usize), state: &str) {
         let doit = match state {
             "off" => -1,
             "on" => 1,
-            _ => 2
+            _ => 2,
         };
 
-        for x in 0..1000 {
-            for y in 0..1000 {
-                if x >= start.0 && x <= end.0 && y >= start.1 && y <= end.1 {
-                    self.squares2[x][y] += doit;
+        for x in start.0..=end.0 {
+            for y in start.1..=end.1 {
+                self.squares2[x][y] += doit;
 
-                    // ensure we don't have a negative brightness
-                    if self.squares2[x][y] < 0 {
-                        self.squares2[x][y] = 0;
-                    }
+                // ensure we don't have a negative brightness
+                if self.squares2[x][y] < 0 {
+                    self.squares2[x][y] = 0;
                 }
             }
         }
@@ -86,15 +82,25 @@ pub fn process_line(input: &str) -> ((usize, usize), (usize, usize), &str) {
         "off"
     } else if input.contains("on") {
         "on"
-    } else { "toggle" };
+    } else {
+        "toggle"
+    };
 
     let re = regex::Regex::new(r"(\d+),(\d+) through (\d+),(\d+)").unwrap();
     let caps = re.captures(input).unwrap();
 
-    let sx = caps.get(1).map_or(1001, |m| m.as_str().parse::<usize>().unwrap());
-    let sy = caps.get(2).map_or(1001, |m| m.as_str().parse::<usize>().unwrap());
-    let ex = caps.get(3).map_or(1001, |m| m.as_str().parse::<usize>().unwrap());
-    let ey = caps.get(4).map_or(1001, |m| m.as_str().parse::<usize>().unwrap());
+    let sx = caps
+        .get(1)
+        .map_or(1001, |m| m.as_str().parse::<usize>().unwrap());
+    let sy = caps
+        .get(2)
+        .map_or(1001, |m| m.as_str().parse::<usize>().unwrap());
+    let ex = caps
+        .get(3)
+        .map_or(1001, |m| m.as_str().parse::<usize>().unwrap());
+    let ey = caps
+        .get(4)
+        .map_or(1001, |m| m.as_str().parse::<usize>().unwrap());
 
     ((sx, sy), (ex, ey), arg)
 }
@@ -129,6 +135,4 @@ fn test_switch_and_count_2() {
 fn test_process_line() {
     let input = "turn off 660,55 through 986,197";
     assert_eq!(process_line(input), ((660, 55), (986, 197), "off"));
-
 }
-

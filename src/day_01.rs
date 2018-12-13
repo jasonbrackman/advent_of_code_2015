@@ -1,5 +1,6 @@
 pub fn what_floor(s: &str) -> i32 {
-    s.chars()
+    s
+        .chars()
         .map(|item| match item {
             '(' => 1,
             ')' => -1,
@@ -10,6 +11,7 @@ pub fn what_floor(s: &str) -> i32 {
 
 pub fn which_index_is_basement(s: &str) -> i32 {
     let mut total = 0;
+
     for (index, item) in s.chars().enumerate() {
         match item {
             '(' => total += 1,
@@ -17,7 +19,7 @@ pub fn which_index_is_basement(s: &str) -> i32 {
             _ => total = total
         }
         if total == -1 {
-            return index as i32 + 1;
+            return (index + 1) as i32;
         }
     }
 

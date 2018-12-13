@@ -249,9 +249,9 @@ fn day_14_run() {
     let data = read(path);
 
     let rules = day_14::prepare_rules(&data);
-    let _part_a = day_14::race(rules, 2503);
+    let _part_a = day_14::race(&rules, 2503);
     let _part_b = 0;
-    day_14::award_point_for_each_win(_part_a);
+    day_14::award_point_for_each_win(&_part_a);
     //assert_eq!(part_a, 0);
     //assert_eq!(part_b, 0);
 
@@ -275,6 +275,7 @@ pub fn time_it(func: fn() -> ()) {
 
 fn main() {
     let mut threads = Vec::new();
+
     threads.push(thread::spawn(||{ time_it(day_01_run) })); // Day 01: Part A: 232; Part B: 1783
     threads.push(thread::spawn(||{ time_it(day_02_run) })); // Day 02: Part A: 1588178; Part B: 3783758
     threads.push(thread::spawn(||{ time_it(day_03_run) })); // Day 03: Part A: 2592; Part B: 2360

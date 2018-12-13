@@ -1,13 +1,13 @@
 use std::collections::HashMap;
 
 pub struct Circuit {
-    pub registers: HashMap<String, u16>
+    pub registers: HashMap<String, u16>,
 }
 
 impl Circuit {
     pub fn new() -> Circuit {
         Circuit {
-            registers: HashMap::new()
+            registers: HashMap::new(),
         }
     }
 
@@ -19,40 +19,38 @@ impl Circuit {
     pub fn parse_line(&mut self, input: &str) -> i32 {
         let mut problems = 0;
 
-        let mut args = input.split_whitespace().map(str::trim).collect::<Vec<&str>>();
+        let mut args = input
+            .split_whitespace()
+            .map(str::trim)
+            .collect::<Vec<&str>>();
 
         let rhs = args.pop().unwrap();
         let _ = args.pop(); // remove the ->
 
-
         if args.len() == 1 {
-
             match args[0].parse::<u16>() {
                 Ok(n) => *self.registers.entry(rhs.to_string()).or_insert(0) = n,
-                Err(_) => if self.registers.contains_key(args[0]) {
-                    *self.registers
-                        .entry(rhs.to_string())
-                        .or_insert(0) = self.registers[args[0]];
-                } else {
-                    problems += 1
+                Err(_) => {
+                    if self.registers.contains_key(args[0]) {
+                        *self.registers.entry(rhs.to_string()).or_insert(0) =
+                            self.registers[args[0]];
+                    } else {
+                        problems += 1
+                    }
                 }
             };
-
         } else if args.len() == 2 {
-
             match args[1].parse::<u16>() {
                 Ok(n) => *self.registers.entry(rhs.trim().to_string()).or_insert(0) = !n,
                 Err(_) => {
                     if self.registers.contains_key(args[1]) {
-                        *self.registers
-                            .entry(rhs.to_string())
-                            .or_insert(0) = !self.registers[args[1]];
+                        *self.registers.entry(rhs.to_string()).or_insert(0) =
+                            !self.registers[args[1]];
                     } else {
                         problems += 1;
                     }
                 }
             };
-
         } else {
             let arg_1 = args[0].parse::<u16>();
             let mut result1 = 0;
@@ -75,14 +73,12 @@ impl Circuit {
             }
 
             if problems == 0 {
-                *self.registers
-                    .entry(rhs.to_string())
-                    .or_insert(0) = match args[1] {
+                *self.registers.entry(rhs.to_string()).or_insert(0) = match args[1] {
                     "AND" => result1 & result2,
                     "OR" => result1 | result2,
                     "LSHIFT" => result1 << result2,
                     "RSHIFT" => result1 >> result2,
-                    _ => panic!("Unexpected pattern found ... ")
+                    _ => panic!("Unexpected pattern found ... "),
                 };
             }
         }
@@ -127,8 +123,6 @@ fn test_get_parent_values() {
         total += circuit.parse_line("eo AND f -> gg");
         total += circuit.parse_line("gg OR eo -> z");
         total += circuit.parse_line("9 -> eo");
-
     }
     assert_eq!(circuit.registers["z"], 9);
-
 }

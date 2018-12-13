@@ -1,4 +1,3 @@
-
 use std::collections::HashMap;
 
 fn get_next(input: &str) -> String {
@@ -14,32 +13,34 @@ fn get_next(input: &str) -> String {
     output.insert(0, next_character);
     while next_character == 'a' {
         if last > 0 {
-
             last -= 1;
             index = get_index(input, &characters, last);
             next_character = get_next_character(&characters, index);
             output.insert(0, next_character);
-            // println!("{}", output);
-            // need to start again but check the next character.
-            // if there isnt another character -- we end with the 'a'
-        }
-        else {
+        // println!("{}", output);
+        // need to start again but check the next character.
+        // if there isn't another character -- we end with the 'a'
+        } else {
             output.insert(0, 'z');
             //output.push('a');
             break;
         }
     }
 
-        // need to put back whatever digits are missing...
-        for c in input[0..last].chars().rev() {
-            output.insert(0, c);
-            //println!("backwards - {}", c);
-        }
+    // need to put back whatever digits are missing...
+    for c in input[0..last].chars().rev() {
+        output.insert(0, c);
+        //println!("backwards - {}", c);
+    }
     output
 }
 
 fn get_next_character(characters: &str, index: usize) -> char {
-    let next_character_index = if index < characters.len() - 1 {index + 1} else {0};
+    let next_character_index = if index < characters.len() - 1 {
+        index + 1
+    } else {
+        0
+    };
     match characters.chars().nth(next_character_index) {
         Some(x) => x,
         None => unimplemented!(),
@@ -49,12 +50,13 @@ fn get_next_character(characters: &str, index: usize) -> char {
 fn get_index(input: &str, characters: &str, last: usize) -> usize {
     characters
         .chars()
-        .position(|c| c == match input.chars().nth(last) {
-            Some(x) => x,
-            None => unimplemented!(),
+        .position(|c| {
+            c == match input.chars().nth(last) {
+                Some(x) => x,
+                None => unimplemented!(),
+            }
         })
         .expect("What Happened?")
-
 }
 
 fn contains_duplicated_letter(input: &str, interrupted: usize) -> bool {
@@ -69,11 +71,10 @@ fn contains_duplicated_letter(input: &str, interrupted: usize) -> bool {
     hmap.len() == 2
 }
 
-
 fn contains_three_characters_in_a_row(input: &str) -> bool {
     let characters = "abcdefghijklmnopqrstuvwxyz".to_string();
     for index in 0..input.len() {
-        if index + 3 < input.len() && characters.contains(&input[index..index+3]) {
+        if index + 3 < input.len() && characters.contains(&input[index..index + 3]) {
             return true;
         }
     }
@@ -87,19 +88,18 @@ pub fn iterate_next_with_rules(start: &str) -> String {
     while !ready {
         result = get_next(&result);
         // println!("Current_Result: {}", result);
-        ready = !result.contains('i') &&
-                !result.contains('l') &&
-                !result.contains('o') &&
-                contains_duplicated_letter(&result, 0) &&
-                contains_three_characters_in_a_row(&result);
-
+        ready = !result.contains('i')
+            && !result.contains('l')
+            && !result.contains('o')
+            && contains_duplicated_letter(&result, 0)
+            && contains_three_characters_in_a_row(&result);
     }
 
     result
 }
 
 /// 'a', 'b', 'c', ... 'z', 'aa', 'ab', 'ac', ...
-    ///
+///
 #[test]
 fn test_get_next() {
     assert_eq!(get_next("a"), "b");
