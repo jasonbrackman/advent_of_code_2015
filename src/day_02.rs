@@ -1,3 +1,27 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2019 Jason Brackman
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 /// A present with dimensions 2x3x4 requires 2*6 + 2*12 + 2*8 = 52 square feet of wrapping paper
 /// plus 6 square feet of slack, for a total of 58 square feet.
 ///
@@ -7,7 +31,7 @@
 pub fn get_dimensions(input: &str) -> i32 {
 
     let numbers = input
-        .trim_right()
+        .trim_end()
         .split('x')
         .map(|s: &str| s.parse::<i32>().unwrap()).collect::<Vec<i32>>();
 
@@ -45,7 +69,7 @@ pub fn get_dimensions(input: &str) -> i32 {
 
 pub fn calculate_bow_length(input: &str) -> i32 {
 
-    let numbers: Vec<i32> = input.trim_right().split('x').map(|s| s.parse::<i32>().unwrap()).collect();
+    let numbers: Vec<i32> = input.trim_end().split('x').map(|s| s.parse::<i32>().unwrap()).collect();
     let l = numbers[0];
     let w = numbers[1];
     let h = numbers[2];
