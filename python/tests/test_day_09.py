@@ -19,26 +19,36 @@
 #  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  SOFTWARE.
-from python import (
-    helpers,
-    day_01,
-    day_02,
-    day_03,
-    day_04,
-    day_05,
-    day_06,
-    day_07,
-    day_08,
-    day_09,
-)
+
+import unittest
+
+from python import day_09
+
+
+class TestDay09(unittest.TestCase):
+    items = [
+        "London to Dublin = 464",
+        "London to Belfast = 518",
+        "Dublin to Belfast = 141",
+    ]
+
+    def test_create_database(self):
+        expected = {
+            "Belfast": {"Dublin": "141", "London": "518"},
+            "Dublin": {"Belfast": "141", "London": "464"},
+            "London": {"Belfast": "518", "Dublin": "464"},
+        }
+
+        db = day_09.generate_db(self.items)
+
+        self.assertEqual(expected, db)
+
+    def test_get_shortest_distance(self):
+        db = day_09.generate_db(self.items)
+        cost_low = 605
+        cost_high = 982
+        self.assertEqual((cost_low, cost_high), day_09.get_shortest_distance(db))
+
 
 if __name__ == "__main__":
-    helpers.time_it(day_01.main)
-    helpers.time_it(day_02.main)
-    helpers.time_it(day_03.main)
-    helpers.time_it(day_04.main)
-    helpers.time_it(day_05.main)
-    helpers.time_it(day_06.main)
-    helpers.time_it(day_07.main)
-    helpers.time_it(day_08.main)
-    helpers.time_it(day_09.main)
+    unittest.main()

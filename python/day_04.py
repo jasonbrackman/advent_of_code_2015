@@ -20,7 +20,9 @@
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  SOFTWARE.
 
+
 import hashlib
+import os
 from functools import partial
 from multiprocessing import Pool
 from typing import Optional
@@ -44,7 +46,7 @@ def get_advent_coin_threaded(prefix: str, leading: str, start_at: int = 1) -> he
     d_max = 10 if len(leading) == 5 else 1
 
     # Providing some defaults for the loop
-    increase_by = 1_000_000
+    increase_by = 400_000
     numbers = range(start_at, increase_by)
 
     # need to use partial to setup the multiprocess pool .map function.
@@ -54,7 +56,7 @@ def get_advent_coin_threaded(prefix: str, leading: str, start_at: int = 1) -> he
     while True:
         # More than four didn't appear to make a difference, less than four increased time.
         # One second faster for each increase to 4
-        with Pool(4) as p:
+        with Pool(os.cpu_count()) as p:
             for result in p.map(func, numbers):
                 if result is not None:
                     return result
@@ -95,7 +97,6 @@ def main():
 
 
 if __name__ == "__main__":
-    import cProfile
-
-    cProfile.run("main()")
-    # main()
+    # import cProfile
+    # cProfile.run("main()")
+    main()

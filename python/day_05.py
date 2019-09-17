@@ -46,7 +46,7 @@ def has_repeating_character(text: str) -> bool:
 
 def is_repeated_with_interuption(text: str, check: int = 3) -> bool:
     for i in range(0, len(text)):
-        chunk = text[i: i + check]
+        chunk = text[i : i + check]
 
         if len(chunk) == check:
             if len(set(chunk)) == 1:

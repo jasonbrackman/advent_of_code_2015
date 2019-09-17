@@ -19,26 +19,50 @@
 #  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  SOFTWARE.
-from python import (
-    helpers,
-    day_01,
-    day_02,
-    day_03,
-    day_04,
-    day_05,
-    day_06,
-    day_07,
-    day_08,
-    day_09,
-)
+
+import sys
+from itertools import permutations
+from typing import List, Dict, Tuple
+
+from python import helpers
+
+
+def generate_db(lines: List[str]) -> Dict:
+    db = dict()
+    for line in lines:
+        f, _, t, _, distance = line.split()
+        db.setdefault(f, dict())
+        db.setdefault(t, dict())
+        db[f][t] = int(distance)
+        db[t][f] = int(distance)
+
+    return db
+
+
+def get_shortest_distance(db: Dict) -> Tuple[int, int]:
+
+    high_cost = 0
+    low_cost = sys.maxsize
+    for route in permutations(db.keys()):
+        cost = sum([db[a][b] for a, b in zip(route, route[1:])])
+
+        if cost > high_cost:
+            high_cost = cost
+
+        if cost < low_cost:
+            low_cost = cost
+
+    return low_cost, high_cost
+
+
+def main():
+    lines = helpers.get_lines(r"../data/day_09.txt")
+    db = generate_db(lines)
+    low, high = get_shortest_distance(db)
+
+    assert low == 117
+    assert high == 909
+
 
 if __name__ == "__main__":
-    helpers.time_it(day_01.main)
-    helpers.time_it(day_02.main)
-    helpers.time_it(day_03.main)
-    helpers.time_it(day_04.main)
-    helpers.time_it(day_05.main)
-    helpers.time_it(day_06.main)
-    helpers.time_it(day_07.main)
-    helpers.time_it(day_08.main)
-    helpers.time_it(day_09.main)
+    main()
