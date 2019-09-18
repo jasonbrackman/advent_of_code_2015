@@ -34,9 +34,9 @@ class TestDay09(unittest.TestCase):
 
     def test_create_database(self):
         expected = {
-            "Belfast": {"Dublin": "141", "London": "518"},
-            "Dublin": {"Belfast": "141", "London": "464"},
-            "London": {"Belfast": "518", "Dublin": "464"},
+            "Belfast": {"Dublin": 141, "London": 518},
+            "Dublin": {"Belfast": 141, "London": 464},
+            "London": {"Belfast": 518, "Dublin": 464},
         }
 
         db = day_09.generate_db(self.items)
