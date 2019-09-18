@@ -19,30 +19,51 @@
 #  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  SOFTWARE.
-from python import (
-    helpers,
-    day_01,
-    day_02,
-    day_03,
-    day_04,
-    day_05,
-    day_06,
-    day_07,
-    day_08,
-    day_09,
-    day_11,
-)
+
+
+# Has a growth rate of 1.3~
+# there is stabilization in both the start and end of the number, cycling in patterns of three
+
+
+def look_and_say(num: int) -> int:
+
+    old_num = str(num)
+    watch = old_num[0]
+    counter = 0
+
+    new_num = list()
+    for s in old_num:
+        if s == watch:
+            counter += 1
+        else:
+            new_num.extend(str(counter))
+            new_num.append(watch)
+            counter = 1
+            watch = s
+
+    new_num.append(str(counter))
+    new_num.append(watch)
+
+    return int("".join(new_num))
+
+
+def main():
+    num = 1113122113
+
+    for i in range(50):
+        num = look_and_say(num)
+
+        if i == 39:
+            total = len(str(num))
+            print("Part01:", total)
+        if 39 < i < 49:
+            print(f"Still working [{i}]: {len(str(num))}")
+        if i == 49:
+            total = len(str(num))
+            print("Part02:", total)
+
 
 if __name__ == "__main__":
-    helpers.time_it(day_01.main)
-    helpers.time_it(day_02.main)
-    helpers.time_it(day_03.main)
-    helpers.time_it(day_04.main)
-    helpers.time_it(day_05.main)
-    helpers.time_it(day_06.main)
-    helpers.time_it(day_07.main)
-    helpers.time_it(day_08.main)
-    helpers.time_it(day_09.main)
-    # Takes too long to run each time...
-    # helpers.time_it(day_10.main)
-    helpers.time_it(day_11.main)
+    # import cProfile
+    # cProfile.run("main()")
+    main()

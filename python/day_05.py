@@ -23,7 +23,7 @@
 from python import helpers
 
 
-def has_repeating_non_overlapping_pairs(text: str):
+def has_repeating_non_overlapping_pairs(text: str) -> bool:
 
     pairs = [i + j for i, j in zip(text, text[1:])]
     if len(pairs) != len(set(pairs)):

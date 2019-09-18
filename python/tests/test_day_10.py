@@ -19,30 +19,16 @@
 #  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  SOFTWARE.
-from python import (
-    helpers,
-    day_01,
-    day_02,
-    day_03,
-    day_04,
-    day_05,
-    day_06,
-    day_07,
-    day_08,
-    day_09,
-    day_11,
-)
+
+import unittest
+
+from python import day_10
+
+
+class TestDay10(unittest.TestCase):
+    def test_look_and_say_1(self):
+        self.assertEqual(11, day_10.look_and_say(1))
+
 
 if __name__ == "__main__":
-    helpers.time_it(day_01.main)
-    helpers.time_it(day_02.main)
-    helpers.time_it(day_03.main)
-    helpers.time_it(day_04.main)
-    helpers.time_it(day_05.main)
-    helpers.time_it(day_06.main)
-    helpers.time_it(day_07.main)
-    helpers.time_it(day_08.main)
-    helpers.time_it(day_09.main)
-    # Takes too long to run each time...
-    # helpers.time_it(day_10.main)
-    helpers.time_it(day_11.main)
+    unittest.main()
