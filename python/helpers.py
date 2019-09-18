@@ -20,6 +20,7 @@
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  SOFTWARE.
 
+import json
 import time
 from typing import List
 
@@ -27,6 +28,12 @@ from typing import List
 def get_lines(path: str) -> List[str]:
     with open(path, "r") as text:
         return [line.strip() for line in text.readlines()]
+
+
+def load_json(path: str) -> dict:
+    with open(path, "r") as o:
+
+        return json.load(o)
 
 
 def time_it(command):

@@ -19,32 +19,38 @@
 #  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  SOFTWARE.
-from python import (
-    helpers,
-    day_01,
-    day_02,
-    day_03,
-    day_04,
-    day_05,
-    day_06,
-    day_07,
-    day_08,
-    day_09,
-    day_11,
-    day_12,
-)
+
+from typing import Any
+
+from python import helpers
+
+
+def drill_down(data: Any, ignore=None):
+    if isinstance(data, list):
+        for v in data:
+            if isinstance(v, (dict, list)):
+                yield from drill_down(v, ignore=ignore)
+            else:
+                yield v
+
+    elif isinstance(data, dict):
+        if ignore is not None and ignore in data.values():
+            raise StopIteration
+        for k, v in data.items():
+            if isinstance(v, (dict, list)):
+                yield from drill_down(v, ignore=ignore)
+            else:
+                yield v
+
+
+def main():
+    data = helpers.load_json(r"../data/day_12.json")
+    part01 = sum(i for i in drill_down(data) if type(i) == int)
+    assert part01 == 156366
+
+    part02 = sum(i for i in drill_down(data, ignore="red") if type(i) == int)
+    assert part02 == 96852
+
 
 if __name__ == "__main__":
-    helpers.time_it(day_01.main)
-    helpers.time_it(day_02.main)
-    helpers.time_it(day_03.main)
-    helpers.time_it(day_04.main)
-    helpers.time_it(day_05.main)
-    helpers.time_it(day_06.main)
-    helpers.time_it(day_07.main)
-    helpers.time_it(day_08.main)
-    helpers.time_it(day_09.main)
-    # Takes too long to run each time...
-    # helpers.time_it(day_10.main)
-    helpers.time_it(day_11.main)
-    helpers.time_it(day_12.main)
+    main()

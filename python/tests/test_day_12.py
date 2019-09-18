@@ -19,32 +19,37 @@
 #  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  SOFTWARE.
-from python import (
-    helpers,
-    day_01,
-    day_02,
-    day_03,
-    day_04,
-    day_05,
-    day_06,
-    day_07,
-    day_08,
-    day_09,
-    day_11,
-    day_12,
-)
+
+import unittest
+
+from python import day_12
+
+
+class TestDay12(unittest.TestCase):
+    def test_drill_down_for_six(self):
+        data1 = {"a": 2, "b": 4}
+        data2 = [1, 2, 3]
+        result1 = sum(i for i in day_12.drill_down(data1))
+        result2 = sum(i for i in day_12.drill_down(data2))
+        self.assertEqual(6, result1)
+        self.assertEqual(6, result2)
+
+    def test_drill_down_for_three(self):
+        data1 = [[[3]]]
+        data2 = {"a": {"b": 4}, "c": [-1, 4, -4, "a"]}
+        result1 = sum(i for i in day_12.drill_down(data1))
+        result2 = sum(i for i in day_12.drill_down(data2) if type(i) == int)
+        self.assertEqual(3, result1)
+        self.assertEqual(3, result2)
+
+    def test_drill_down_for_zero(self):
+        data1 = list()
+        data2 = dict()
+        result1 = sum(i for i in day_12.drill_down(data1))
+        result2 = sum(i for i in day_12.drill_down(data2))
+        self.assertEqual(0, result1)
+        self.assertEqual(0, result2)
+
 
 if __name__ == "__main__":
-    helpers.time_it(day_01.main)
-    helpers.time_it(day_02.main)
-    helpers.time_it(day_03.main)
-    helpers.time_it(day_04.main)
-    helpers.time_it(day_05.main)
-    helpers.time_it(day_06.main)
-    helpers.time_it(day_07.main)
-    helpers.time_it(day_08.main)
-    helpers.time_it(day_09.main)
-    # Takes too long to run each time...
-    # helpers.time_it(day_10.main)
-    helpers.time_it(day_11.main)
-    helpers.time_it(day_12.main)
+    unittest.main()
