@@ -33,6 +33,7 @@ from python import (
     day_11,
     day_12,
     day_13,
+    day_14,
 )
 
 if __name__ == "__main__":
@@ -50,3 +51,4 @@ if __name__ == "__main__":
     helpers.time_it(day_11.main)
     helpers.time_it(day_12.main)
     helpers.time_it(day_13.main)
+    helpers.time_it(day_14.main)
