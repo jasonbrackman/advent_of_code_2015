@@ -22,9 +22,14 @@
 
 import unittest
 
+from hypothesis_auto import auto_test
+
+from python import day_13
+
 
 class TestDay13(unittest.TestCase):
-    ...
+    def test_get_happiness_results_autotest(self):
+        auto_test(day_13.get_happiness_results)
 
 
 if __name__ == "__main__":

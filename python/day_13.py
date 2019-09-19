@@ -26,7 +26,9 @@ from typing import List, Dict, Tuple
 from python import helpers
 
 
-def add_new_guest(db: dict, name: str, default_change: int):
+def add_new_guest(
+    db: dict, name: str, default_change: int
+) -> Dict[str, Dict[str, int]]:
     # add new name to all existing guest relationships
     for k in db.keys():
         if name not in db[k]:
@@ -41,7 +43,7 @@ def add_new_guest(db: dict, name: str, default_change: int):
     return db
 
 
-def create_database(lines: List[str]) -> Dict:
+def create_database(lines: List[str]) -> Dict[str, Dict[str, int]]:
     db = dict()
 
     for line in lines:
@@ -74,7 +76,7 @@ def main():
     assert part02 == 725
 
 
-def get_happiness_results(db):
+def get_happiness_results(db: Dict[str, Dict[str, int]]) -> List[int]:
     happy_bank = list()
     seatings = permutations(db.keys())
     for seating in seatings:

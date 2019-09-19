@@ -20,12 +20,12 @@
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  SOFTWARE.
 
-from typing import List
+from typing import List, Iterator
 
 from python import helpers
 
 
-def parse_lines(lines: List[str]):
+def parse_lines(lines: List[str]) -> List:
     collection = list()
     for line in lines:
         name, _, _, speed, _, _, time_fly, *_, time_pause, _ = line.split()
@@ -33,7 +33,7 @@ def parse_lines(lines: List[str]):
     return collection
 
 
-def cycle(speed: int, t_go: int, t_stop: int):
+def cycle(speed: int, t_go: int, t_stop: int) -> Iterator[int]:
     while True:
         for i in range(t_go):
             yield speed

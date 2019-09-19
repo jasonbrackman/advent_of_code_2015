@@ -33,9 +33,17 @@
 #
 import unittest
 
+from hypothesis_auto import auto_test
+
+from python import day_14
+
 
 class TestDay14(unittest.TestCase):
-    ...
+    def test_parse_lines_autotest(self):
+        auto_test(day_14.parse_lines, _auto_allow_exceptions=(ValueError,))
+
+    # def test_cycle_autotest(self):
+    #     auto_test(day_14.cycle, _auto_allow_exceptions=(AssertionError, ))
 
 
 if __name__ == "__main__":
