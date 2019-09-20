@@ -22,23 +22,25 @@
 
 import unittest
 
-from python import day_17
+from python import day_18
 
 
-class TestDay17(unittest.TestCase):
-    items = [20, 15, 10, 5, 5]
+class TestDay18(unittest.TestCase):
+    def test_lights_on_after_four_rounds(self):
+        grid = [
+            list(".#.#.#"),
+            list("...##."),
+            list("#....#"),
+            list("..#..."),
+            list("#.#..#"),
+            list("####.."),
+        ]
 
-    def test_sorted_items_into_buckets_25(self):
-        expected = [(15, 10), (20, 5), (20, 5), (15, 5, 5)]
-        self.assertSequenceEqual(
-            sorted(expected), sorted(day_17.get_buckets(self.items, 25))
-        )
-
-    def test_get_minum_number_of_containers(self):
-        expected = 3
-        buckets = day_17.get_buckets(self.items, 25)
-        self.assertEqual(expected, len(min(buckets)))
-
-
-if __name__ == "__main__":
-    unittest.main()
+        expected = 4
+        for _ in range(4):
+            grid = day_18.flip(grid)
+            print(grid)
+        # total = 0
+        # for g in grid:
+        #     total += g.count("#")
+        # self.assertEqual(expected, total)
