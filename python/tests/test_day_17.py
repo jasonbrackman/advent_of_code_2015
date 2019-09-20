@@ -19,42 +19,23 @@
 #  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  SOFTWARE.
-from python import (
-    helpers,
-    day_01,
-    day_02,
-    day_03,
-    day_04,
-    day_05,
-    day_06,
-    day_07,
-    day_08,
-    day_09,
-    day_11,
-    day_12,
-    day_13,
-    day_14,
-    day_15,
-    day_16,
-    day_17,
-)
+
+import unittest
+
+from python import day_17
+
+
+class TestDay17(unittest.TestCase):
+    items = [20, 15, 10, 5, 5]
+
+    def test_sorted_items_into_buckets_25(self):
+        expected = [(15, 10), (20, 5), (20, 5), (15, 5, 5)]
+        self.assertSequenceEqual(sorted(expected), sorted(day_17.get_buckets(self.items, 25)))
+
+    def test_get_minum_number_of_containers(self):
+        expected = 3
+        buckets = day_17.get_buckets(self.items, 25)
+        self.assertEqual(expected, len(min(buckets)))
 
 if __name__ == "__main__":
-    helpers.time_it(day_01.main)
-    helpers.time_it(day_02.main)
-    helpers.time_it(day_03.main)
-    helpers.time_it(day_04.main)
-    helpers.time_it(day_05.main)
-    helpers.time_it(day_06.main)
-    helpers.time_it(day_07.main)
-    helpers.time_it(day_08.main)
-    helpers.time_it(day_09.main)
-    # Takes too long to run each time...
-    # helpers.time_it(day_10.main)
-    helpers.time_it(day_11.main)
-    helpers.time_it(day_12.main)
-    helpers.time_it(day_13.main)
-    helpers.time_it(day_14.main)
-    helpers.time_it(day_15.main)
-    helpers.time_it(day_16.main)
-    helpers.time_it(day_17.main)
+    unittest.main()
