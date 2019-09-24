@@ -19,6 +19,8 @@
 #  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  SOFTWARE.
+import time
+
 from python import (
     helpers,
     day_01,
@@ -41,22 +43,28 @@ from python import (
 )
 
 if __name__ == "__main__":
-    helpers.time_it(day_01.main)
-    helpers.time_it(day_02.main)
-    helpers.time_it(day_03.main)
+    t1 = time.perf_counter()
+    args = [
+        day_15.main,
+        day_18.main,
+        day_06.main,
+        day_11.main,
+        day_13.main,
+        day_01.main,
+        day_02.main,
+        day_03.main,
+        day_05.main,
+        day_07.main,
+        day_08.main,
+        day_09.main,
+        # day_10.main,
+        day_12.main,
+        day_14.main,
+        day_16.main,
+        day_17.main,
+    ]
+
+    helpers.time_it_all(args)
     helpers.time_it(day_04.main)
-    helpers.time_it(day_05.main)
-    helpers.time_it(day_06.main)
-    helpers.time_it(day_07.main)
-    helpers.time_it(day_08.main)
-    helpers.time_it(day_09.main)
-    # Takes too long to run each time...
-    # helpers.time_it(day_10.main)
-    helpers.time_it(day_11.main)
-    helpers.time_it(day_12.main)
-    helpers.time_it(day_13.main)
-    helpers.time_it(day_14.main)
-    helpers.time_it(day_15.main)
-    helpers.time_it(day_16.main)
-    helpers.time_it(day_17.main)
-    helpers.time_it(day_18.main)
+
+    print(f"Completed Run for 2015 solutions in {time.perf_counter() - t1}s.")

@@ -22,31 +22,15 @@
 
 import unittest
 
-from python import day_19
+from python import day_20
 
 
-class TestDay19(unittest.TestCase):
-    lines = """H => HO\nH => OH\nO => HH\n\nHOH"""
+class TestDay20(unittest.TestCase):
+    def test_house_1(self):
+        self.assertEqual(10, day_20.get_house_value(1))
 
-    def test_parse_lines_key(self):
-        key, _ = day_19.parse_lines(self.lines.split("\n"))
-        self.assertEqual("HOH", key)
-
-    def test_parse_lines_db(self):
-        _, db = day_19.parse_lines(self.lines.split("\n"))
-        self.assertEqual({"H": ["HO", "OH"], "O": ["HH"]}, db)
-
-    def test_get_permutations(self):
-        expected = ["HOOH", "HOHO", "OHOH", "HHHH"]
-        key, db = day_19.parse_lines(self.lines.split("\n"))
-        results = day_19.get_distinct_molecules(key, db)
-
-        self.assertEqual(expected, results)
-
-    def test_get_molecule_fabrication(self):
-        lines = "e => H\ne => O\nH => HO\nH => OH\nO => HH NOTHING"
-        _, db = day_19.parse_lines(lines.split("\n"))
-        self.assertEqual(["H", "O"], db["e"])
+    def test_house_5(self):
+        self.assertEqual(60, day_20.get_house_value(5))
 
 
 if __name__ == "__main__":

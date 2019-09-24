@@ -46,7 +46,7 @@ def get_advent_coin_threaded(prefix: str, leading: str, start_at: int = 1) -> he
     d_max = 10 if len(leading) == 5 else 1
 
     # Providing some defaults for the loop
-    increase_by = 400_000
+    increase_by = 200_000
     numbers = range(start_at, increase_by)
 
     # need to use partial to setup the multiprocess pool .map function.

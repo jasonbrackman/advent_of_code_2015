@@ -52,7 +52,7 @@ def flip(grid: List[List[chr]], corners_always_on: bool = False):
 
     new_grid = list()
     for x in range(max_len):
-        new_grid.append(list())
+        icos = list()
         for y in range(max_len):
             neighbours = 0
             for i in range(-1, 2):
@@ -71,8 +71,8 @@ def flip(grid: List[List[chr]], corners_always_on: bool = False):
             elif current == "." and neighbours == 3:
                 new_ico = "#"
 
-            new_grid[x].append(new_ico)
-
+            icos.append(new_ico)
+        new_grid.append(icos)
     if corners_always_on:
         new_grid = corners_on(new_grid)
 
@@ -96,4 +96,6 @@ def main():
 
 
 if __name__ == "__main__":
+    # import cProfile
+    # cProfile.run("main()")
     main()

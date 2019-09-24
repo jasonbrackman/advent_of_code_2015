@@ -26,10 +26,12 @@ from python import helpers
 
 
 def get_floor(lines: List[str], search_floor: Optional[int] = None) -> int:
+    options = {"(": 1, ")": -1}
+
     total = 0
     for line in lines:
         for index, c in enumerate(line, 1):
-            total += 1 if c == "(" else -1
+            total += options[c]
             if search_floor is not None and total == search_floor:
                 return index
 

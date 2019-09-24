@@ -19,35 +19,45 @@
 #  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  SOFTWARE.
-
-import unittest
-
-from python import day_19
+import math
+from typing import List
 
 
-class TestDay19(unittest.TestCase):
-    lines = """H => HO\nH => OH\nO => HH\n\nHOH"""
+def get_divisors(number: int) -> List[int]:
+    small_divisors = [
+        i for i in range(1, int(math.sqrt(number)) + 1) if number % i == 0
+    ]
+    large_divisors = [int(number / d) for d in small_divisors if number != d * d]
+    return small_divisors + large_divisors
 
-    def test_parse_lines_key(self):
-        key, _ = day_19.parse_lines(self.lines.split("\n"))
-        self.assertEqual("HOH", key)
 
-    def test_parse_lines_db(self):
-        _, db = day_19.parse_lines(self.lines.split("\n"))
-        self.assertEqual({"H": ["HO", "OH"], "O": ["HH"]}, db)
+def get_house_value(address: int) -> int:
+    return sum(i for i in get_divisors(address)) * 10
 
-    def test_get_permutations(self):
-        expected = ["HOOH", "HOHO", "OHOH", "HHHH"]
-        key, db = day_19.parse_lines(self.lines.split("\n"))
-        results = day_19.get_distinct_molecules(key, db)
 
-        self.assertEqual(expected, results)
+def get_house_value_decay(address: int) -> int:
+    return sum(i for i in get_divisors(address) if address / i <= 50) * 11
 
-    def test_get_molecule_fabrication(self):
-        lines = "e => H\ne => O\nH => HO\nH => OH\nO => HH NOTHING"
-        _, db = day_19.parse_lines(lines.split("\n"))
-        self.assertEqual(["H", "O"], db["e"])
+
+def part_01(seek: int):
+    for x in range(0, 1_000_000, 960):
+        value = get_house_value(x)
+        if value >= seek:
+            return x
+    return 0
+
+
+def part_02(seek: int):
+    for x in range(0, 1_000_000, 840):
+        value = get_house_value_decay(x)
+        if value >= seek:
+            return x
+    return 0
 
 
 if __name__ == "__main__":
-    unittest.main()
+    part_01 = part_01(29_000_000)
+    part_02 = part_02(29_000_000)
+
+    assert part_01 == 665280
+    assert part_02 == 705600

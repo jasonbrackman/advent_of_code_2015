@@ -22,6 +22,7 @@
 
 import json
 import time
+from multiprocessing import Pool
 from typing import List
 
 
@@ -42,3 +43,8 @@ def time_it(command):
     print(
         f"[{str(command.__module__)}.{command.__name__}: Completed in {time.perf_counter() - t1:0.8f} seconds"
     )
+
+
+def time_it_all(args: List):
+    with Pool(4) as p:
+        p.map(time_it, args)
