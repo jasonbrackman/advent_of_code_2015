@@ -40,6 +40,7 @@ from python import (
     day_16,
     day_17,
     day_18,
+    day_21,
 )
 
 if __name__ == "__main__":
@@ -62,6 +63,7 @@ if __name__ == "__main__":
         day_14.main,
         day_16.main,
         day_17.main,
+        day_21.main,
     ]
 
     helpers.time_it_all(args)
