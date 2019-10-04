@@ -73,10 +73,10 @@ class GameState:
 
         turn_owner = "Player" if self.is_player_turn_over else "Boss"
 
-        msg = f"Boss attacks for {self.boss.damage - self.player.armor} damage.\n"
+        msg = f"Boss attacks for {self.boss.damage - self.player.armor} damage."
         if self.is_player_turn_over:
             # Must have finished a round where it was the player's turn
-            msg = f"Player attacks for {self.player.damage - self.boss.armor} damage.\n"
+            msg = f"Player attacks for {self.player.damage - self.boss.armor} damage."
 
         return (
             f"-- {turn_owner} turn --\n"
@@ -84,6 +84,7 @@ class GameState:
             f" - Boss has {self.boss.hit_points} hit points\n"
             f"{text}\n"
             f"{msg}\n"
+            f"Player spent {self.player.spent}"
 
         )
 
@@ -119,6 +120,7 @@ class GameState:
     def cast_new_spell(self, spell: Spell):
         if not self.is_player_turn_over:
             self.player.mana -= spell.cost
+            self.player.spent += spell.cost
             # Check if its an instant spell or has an effect
             if spell.effect is None:  # instant
                 self.boss.hit_points -= spell.damage - self.boss.armor
@@ -128,7 +130,7 @@ class GameState:
                 self.player.spells.add(spell)
 
     def goal_test(self) -> bool:
-        if self.boss.hit_points <= 0:
+        if self.boss.hit_points <= 0 and self.player.spent < 900:
             return True
         return False
 
