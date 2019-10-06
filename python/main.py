@@ -41,6 +41,7 @@ from python import (
     day_17,
     day_18,
     day_21,
+    day_22,
 )
 
 if __name__ == "__main__":
@@ -59,14 +60,16 @@ if __name__ == "__main__":
         day_08.main,
         day_09.main,
         # day_10.main,
-        day_12.main,
+        # day_12.main,
         day_14.main,
         day_16.main,
         day_17.main,
         day_21.main,
+        day_22.main,
     ]
 
     helpers.time_it_all(args)
     helpers.time_it(day_04.main)
+    helpers.time_it(day_12.main)
 
     print(f"Completed Run for 2015 solutions in {time.perf_counter() - t1}s.")

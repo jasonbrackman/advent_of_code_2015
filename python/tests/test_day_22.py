@@ -26,7 +26,6 @@ from python import day_22
 
 
 class TestDay22(unittest.TestCase):
-
     def test_boss_13_hit_points_8_damage(self):
         """player has 10 hit points and 250 mana,
         and that the boss has 13 hit points and 8 damage:"""

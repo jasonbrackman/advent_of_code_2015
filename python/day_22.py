@@ -28,7 +28,9 @@ from typing import Optional, Set, List
 
 
 class Effect:
-    def __init__(self, name: str, turns: int, armor: int, damage: int, mana: int) -> None:
+    def __init__(
+        self, name: str, turns: int, armor: int, damage: int, mana: int
+    ) -> None:
         self.name: str = name
         self.turns: int = turns
         self.armor: int = armor
@@ -37,7 +39,9 @@ class Effect:
 
 
 class Spell:
-    def __init__(self, name: str, cost: int, damage: int, heal: int, effect: Optional[Effect]) -> None:
+    def __init__(
+        self, name: str, cost: int, damage: int, heal: int, effect: Optional[Effect]
+    ) -> None:
         self.name: str = name
         self.cost: int = cost
         self.damage: int = damage
@@ -92,17 +96,22 @@ class GameState:
         self.hard = hard
 
     def __str__(self):
-        text = '\n'.join([
-            f" => EFFECT: {s.effect.name} deals {s.effect.damage}; its timer is now {s.effect.turns}"
-            for s in self.player.spells if s.effect is not None
-        ])
+        text = "\n".join(
+            [
+                f" => EFFECT: {s.effect.name} deals {s.effect.damage}; its timer is now {s.effect.turns}"
+                for s in self.player.spells
+                if s.effect is not None
+            ]
+        )
 
         turn_owner = "Player" if self.is_player_turn_over else "Boss"
 
         msg = f" - Boss attacks for {self.boss.damage - self.player.armor} damage."
         if self.is_player_turn_over:
             # Must have finished a round where it was the player's turn
-            msg = f" - Player attacks for {self.player.damage - self.boss.armor} damage."
+            msg = (
+                f" - Player attacks for {self.player.damage - self.boss.armor} damage."
+            )
 
         return (
             f"-- {turn_owner} turn --\n"
@@ -111,7 +120,6 @@ class GameState:
             f"{text}\n"
             f"{msg}\n"
             f" - Player spent {self.player.spent}\n"
-
         )
 
     def hard_play_should_continue(self) -> bool:
@@ -186,9 +194,6 @@ class GameState:
         return False
 
     def is_legal(self) -> bool:
-        for s in self.player.spells:
-            if s.effect.turns <= 0:
-                raise ValueError(f"Something went wrong: {s.name} is now at {s.effect.turns} turns.")
 
         if self.player.mana < min(s.cost for s in self.spells):
             return False
@@ -278,15 +283,19 @@ def main():
     boss = Character("Boss", hit_points=51, mana=0, damage=9, armor=0)
     player = Character("Player", hit_points=50, mana=500, damage=0, armor=0)
 
-    game = GameState(boss=boss, player=player, hard=True)
-    solution = bfs(game, limit=1241)
+    game01 = GameState(boss=boss, player=player, hard=False)
+    solution_01: Optional[Node] = bfs(game01, limit=1241)
 
-    if solution is not None:
-        while solution.parent:
-            print(solution.state)
-            solution = solution.parent
-    else:
-        print("No solution found.")
+    game02 = GameState(boss=boss, player=player, hard=True)
+    solution_02: Optional[Node] = bfs(game02, limit=1241)
+
+    if solution_01 is not None:
+        assert solution_01.state.player.spent == 900
+        print(f"Part_01: {solution_01.state.player.spent}")
+
+    if solution_02 is not None:
+        assert solution_02.state.player.spent == 1216
+        print(f"Part_02: {solution_02.state.player.spent}")
 
 
 if __name__ == "__main__":
