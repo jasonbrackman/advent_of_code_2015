@@ -33,7 +33,6 @@ from python import (
     day_08,
     day_09,
     day_11,
-    day_12,
     day_13,
     day_14,
     day_15,
@@ -41,7 +40,7 @@ from python import (
     day_17,
     day_18,
     day_21,
-    day_22,
+    day_23,
 )
 
 if __name__ == "__main__":
@@ -59,17 +58,17 @@ if __name__ == "__main__":
         day_07.main,
         day_08.main,
         day_09.main,
-        # day_10.main,
-        # day_12.main,
+        # day_10.main,  # takes a long time to run
         day_14.main,
         day_16.main,
         day_17.main,
         day_21.main,
-        day_22.main,
+        day_23.main,
     ]
 
     helpers.time_it_all(args)
     helpers.time_it(day_04.main)
-    helpers.time_it(day_12.main)
+    # helpers.time_it(day_12.main) # something is wrong here... need to revisit
+    # helpers.time_it(day_22.main)  # also has problems -- something to do with the deepcopy
 
     print(f"Completed Run for 2015 solutions in {time.perf_counter() - t1}s.")

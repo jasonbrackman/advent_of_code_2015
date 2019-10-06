@@ -35,12 +35,6 @@ functions = {
 }
 
 
-def custom_counter(start: int) -> int:
-    while True:
-        yield start
-        start += 1
-
-
 def main():
     instructions = helpers.get_lines(r"../data/day_23.txt")
 
@@ -89,7 +83,7 @@ def process_instructions(instructions):
         if register in registers:
             registers[register] = register_value
 
-    print("Index:", index, "Registers:", registers)
+    # print("Index:", index, "Registers:", registers)
 
     return registers
 
