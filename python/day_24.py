@@ -21,7 +21,7 @@
 #  SOFTWARE.
 
 from itertools import combinations
-from typing import List, Tuple
+from typing import List, Tuple, Any
 
 from python import helpers
 
@@ -30,17 +30,21 @@ def reduce_list(original: List[int], reduce: Tuple[int]) -> List[int]:
     return [n for n in original if n not in reduce]
 
 
-def can_be_balanced(original_nums: List[int], value: int) -> bool:
-    for count in range(1, len(original_nums) - 1):
+def can_be_balanced(original_nums: List[int], value: int, buckets: int) -> bool:
+    for count in range(1, len(original_nums)):
         for items in combinations(original_nums, count):
             if sum(items) == value:
                 new_list = reduce_list(original_nums, items)
-                if sum(new_list) == value:
-                    return True
+                if buckets == 2:
+                    if sum(new_list) == value:
+                        return True
+                else:
+                    buckets -= 1
+                    return can_be_balanced(new_list, value, buckets)
     return False
 
 
-def quantum_entanglement_value(items: Tuple[int]) -> int:
+def quantum_entanglement_value(items: Tuple[Any]) -> int:
     value = 1
 
     for item in items:
@@ -53,23 +57,34 @@ def main():
     lines = helpers.get_lines(r"../data/day_24.txt")
     nums = [int(n) for n in lines]
 
-
-    part_01_results: List = list()
-    balanced = sum(nums) // 3
-    print("Total sum:", sum(nums), "Looking for:", balanced)
-    magic_number = 6  # was the smallest brute force that would generate the balanced number
-    for items in combinations(nums, magic_number):
-        if sum(items) == balanced:
-            if can_be_balanced([n for n in nums if n not in items], balanced):
-                part_01_results.append(quantum_entanglement_value(items))
+    magic_number = (
+        6
+    )  # was the smallest brute force that would generate the balanced number
+    buckets = 3  # from instructions -- need three equal weighted buckets
+    part_01_results = get_smallest_quantum_entanglement_bucket(
+        buckets, magic_number, nums
+    )
     assert min(part_01_results) == 10439961859
 
-    balanced = sum(nums) // 4
-    print("Total sum:", sum(nums), "Looking for:", balanced)
-    magic_number = 5
+    magic_number = 5  # brute forced this minimum number that makes up the value
+    buckets = 4  # from instructions
+    part_02_results = get_smallest_quantum_entanglement_bucket(
+        buckets, magic_number, nums
+    )
+    assert min(part_02_results) == 72050269
+
+
+def get_smallest_quantum_entanglement_bucket(buckets, magic_number, nums):
+    part_01_results: List = list()
+    balanced = sum(nums) // buckets
+    # print("Total sum:", sum(nums), "Looking for:", balanced)
     for items in combinations(nums, magic_number):
         if sum(items) == balanced:
-            print(items)
+            if can_be_balanced(
+                [n for n in nums if n not in items], balanced, buckets=buckets - 1
+            ):
+                part_01_results.append(quantum_entanglement_value(items))
+    return part_01_results
 
 
 if __name__ == "__main__":
