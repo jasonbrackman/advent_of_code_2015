@@ -19,60 +19,44 @@
 #  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  SOFTWARE.
-import time
 
-from python import (
-    helpers,
-    day_01,
-    day_02,
-    day_03,
-    day_04,
-    day_05,
-    day_06,
-    day_07,
-    day_08,
-    day_09,
-    day_11,
-    day_13,
-    day_14,
-    day_15,
-    day_16,
-    day_17,
-    day_18,
-    day_21,
-    day_23,
-    day_24,
-    day_25,
-)
+
+def generate_codes(num_start: int = 20151125):
+    while True:
+        yield num_start
+        num_next = num_start * 252533
+        num_start = num_next % 33554393
+
+
+def infinite_grid(max_row: int, max_col: int):
+    codes = generate_codes()
+    items = dict()
+    row = 1
+    col = 1
+    new_row = row
+    while True:
+
+        items[(new_row, col)] = next(codes)
+        while col != row:
+            new_row -= 1
+            col += 1
+            items[(new_row, col)] = next(codes)
+            if new_row == max_row and col == max_col:
+                return items
+
+        row += 1
+        new_row = row
+        col = 1
+
+
+def main():
+    """
+    To continue, please consult the code grid in the manual.
+    Enter the code at row 3010, column 3019.
+    """
+    results = infinite_grid(3010, 3019)
+    assert results[(3010, 3019)] == 8997277
+
 
 if __name__ == "__main__":
-    t1 = time.perf_counter()
-    args = [
-        day_15.main,
-        day_18.main,
-        day_06.main,
-        day_11.main,
-        day_13.main,
-        day_01.main,
-        day_02.main,
-        day_03.main,
-        day_05.main,
-        day_07.main,
-        day_08.main,
-        day_09.main,
-        # day_10.main,  # takes a long time to run
-        day_14.main,
-        day_16.main,
-        day_17.main,
-        day_21.main,
-        day_23.main,
-        day_24.main,
-        day_25.main,
-    ]
-
-    helpers.time_it_all(args)
-    helpers.time_it(day_04.main)
-    # helpers.time_it(day_12.main) # something is wrong here... need to revisit
-    # helpers.time_it(day_22.main)  # also has problems -- something to do with the deepcopy
-
-    print(f"Completed Run for 2015 solutions in {time.perf_counter() - t1}s.")
+    main()
