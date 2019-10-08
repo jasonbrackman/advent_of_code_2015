@@ -24,6 +24,8 @@
 # Has a growth rate of 1.3~
 # there is stabilization in both the start and end of the number, cycling in patterns of three
 
+import os
+
 
 def look_and_say(num: int) -> int:
 
@@ -48,6 +50,7 @@ def look_and_say(num: int) -> int:
 
 
 def main():
+    puzzle_name = os.path.basename(__file__)
     num = 1113122113
 
     for i in range(50):
@@ -55,12 +58,12 @@ def main():
 
         if i == 39:
             total = len(str(num))
-            print("Part01:", total)
+            print(f"[{puzzle_name}] Part01:", total)
         if 39 < i < 49:
-            print(f"Still working [{i}]: {len(str(num))}")
+            print(f"[{puzzle_name}] Still working [{i}]: {len(str(num))}")
         if i == 49:
             total = len(str(num))
-            print("Part02:", total)
+            print(f"[{puzzle_name}] Part02:", total)
 
 
 if __name__ == "__main__":

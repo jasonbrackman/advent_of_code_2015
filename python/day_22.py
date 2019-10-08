@@ -285,13 +285,13 @@ def main():
 
     game01 = GameState(boss=boss, player=player, hard=False)
     solution_01: Optional[Node] = bfs(game01, limit=1241)
-    assert solution_01.state.player.spent == 900
 
     game02 = GameState(boss=boss, player=player, hard=True)
     solution_02: Optional[Node] = bfs(game02, limit=1241)
     assert solution_02.state.player.spent == 1216
 
     if solution_01 is not None:
+        assert solution_01.state.player.spent == 900
         print(f"Part_01: {solution_01.state.player.spent}")
 
     if solution_02 is not None:
@@ -299,4 +299,6 @@ def main():
 
 
 if __name__ == "__main__":
+    # import cProfile
+    # cProfile.run("main()")
     main()

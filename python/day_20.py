@@ -55,9 +55,12 @@ def part_02(seek: int):
     return 0
 
 
-if __name__ == "__main__":
-    part_01 = part_01(29_000_000)
-    part_02 = part_02(29_000_000)
+def main():
+    part01 = part_01(29_000_000)
+    part02 = part_02(29_000_000)
+    assert part01 == 665280
+    assert part02 == 705600
 
-    assert part_01 == 665280
-    assert part_02 == 705600
+
+if __name__ == "__main__":
+    main()

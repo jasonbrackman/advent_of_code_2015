@@ -35,7 +35,7 @@ def drill_down(data: Any, ignore=None):
 
     elif isinstance(data, dict):
         if ignore is not None and ignore in data.values():
-            raise StopIteration
+            return
         for k, v in data.items():
             if isinstance(v, (dict, list)):
                 yield from drill_down(v, ignore=ignore)
