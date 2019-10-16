@@ -23,8 +23,9 @@
 from __future__ import annotations
 
 import copy
+import sys
 from collections import deque
-from typing import Optional, Set, List
+from typing import Optional, List
 
 
 class Effect:
@@ -57,12 +58,12 @@ class Character:
         self.damage: int = damage
         self.armor: int = armor
 
-        self.spells: Set[Spell] = set()
+        self.spells: List[Spell] = list()
         self.spent: int = 0
 
 
 class GameState:
-    spells: Set[Spell] = {
+    spells: List[Spell] = [
         Spell("Magic Missile", cost=53, damage=4, heal=0, effect=None),
         Spell("Drain", cost=73, damage=2, heal=2, effect=None),
         Spell(
@@ -86,14 +87,16 @@ class GameState:
             heal=0,
             effect=Effect("Recharge Effect", turns=5, armor=0, damage=0, mana=101),
         ),
-    }
-
-    is_player_turn_over: bool = False
+    ]
 
     def __init__(self, boss: Character, player: Character, hard: bool = False) -> None:
         self.boss = boss
         self.player = player
         self.hard = hard
+        self.turns = 0
+
+    def is_player_turn(self):
+        return self.turns % 2 == 0
 
     def __str__(self):
         text = "\n".join(
@@ -104,45 +107,31 @@ class GameState:
             ]
         )
 
-        turn_owner = "Player" if self.is_player_turn_over else "Boss"
+        turn_owner = "Boss" if self.is_player_turn() else "Player"
 
         msg = f" - Boss attacks for {self.boss.damage - self.player.armor} damage."
-        if self.is_player_turn_over:
+        if self.is_player_turn() is False:
             # Must have finished a round where it was the player's turn
             msg = (
                 f" - Player attacks for {self.player.damage - self.boss.armor} damage."
             )
 
         return (
-            f"-- {turn_owner} turn --\n"
+            f"-- [{self.turns}] {turn_owner} turn [hard={self.hard}] --\n"
             f" - Player has {self.player.hit_points} hit points, {self.player.armor} armor, {self.player.mana} mana\n"
             f" - Boss has {self.boss.hit_points} hit points\n"
-            f"{text}\n"
-            f"{msg}\n"
+            f" - {text}\n"
+            # f"{msg}\n"
             f" - Player spent {self.player.spent}\n"
         )
 
     def hard_play_should_continue(self) -> bool:
         # For part 2
-        if self.hard is True:
-            if self.is_player_turn_over is False:
-                self.player.hit_points -= 1
-                if self.player.hit_points <= 0:
-                    return False
+        if self.hard is True and self.is_player_turn():
+            self.player.hit_points -= 1
+            if self.player.hit_points <= 0:
+                return False
         return True
-
-    def take_turn(self, spell: Optional[Spell, str] = None):
-        # self.cast_active_spell_effects()
-
-        if spell is not None:
-            if isinstance(spell, str):
-                spell = next(s for s in self.spells if s.name == spell)
-            if isinstance(spell, Spell):
-                self.cast_new_spell(spell)
-            else:
-                raise ValueError(f"Expected a Spell, but got a {type(spell)}!")
-
-        self.is_player_turn_over = not self.is_player_turn_over
 
     def cast_active_spell_effects(self):
         to_remove = list()
@@ -151,18 +140,15 @@ class GameState:
         for s in self.player.spells:
             if hasattr(s, "effect") and s.effect is not None:
                 # poison
-                # print(f"--> Casting poison dmg: {s.effect.damage}")
                 self.boss.hit_points -= s.effect.damage
 
                 # Recharge
-                # print(f"--> Casting recharge mana: {s.effect.mana}")
                 self.player.mana += s.effect.mana
 
                 # Reduce the turns
                 s.effect.turns -= 1
                 if s.effect.turns <= 0:
                     # Remove one time active boosts from effects
-                    # print("--> Removing armor bonus")
                     self.player.armor -= s.effect.armor
                     to_remove.append(s)
 
@@ -170,7 +156,7 @@ class GameState:
             self.player.spells.remove(d)
 
     def cast_new_spell(self, spell: Spell):
-        if not self.is_player_turn_over:
+        if self.is_player_turn():
             self.player.mana -= spell.cost
             self.player.spent += spell.cost
 
@@ -183,25 +169,24 @@ class GameState:
             else:
                 # Add the one time armor bonus -- will be removed when spell is deleted
                 self.player.armor += spell.effect.armor
-                self.player.spells.add(spell)
+                self.player.spells.append(spell)
 
-    def goal_test(self, limit: int = 1_000_000) -> bool:
+    def goal_test(self, limit: int = sys.maxsize) -> bool:
         # part_01 = 900
         # part_02 = 1_241  # 1242 is too high
         # limit = part_01 if self.hard is False else part_02
-        if self.boss.hit_points <= 0 and self.player.spent <= limit:
+        # if self.boss.hit_points <= 0:
+        #     print("Is kind of a winner.  Looking for <= {}, but found {}".format(limit, self.player.spent))
+
+        if (
+            self.player.hit_points > 0 >= self.boss.hit_points
+            and self.player.spent <= limit
+        ):
             return True
         return False
 
     def is_legal(self) -> bool:
-
-        if self.player.mana < min(s.cost for s in self.spells):
-            return False
-
-        if self.player.hit_points <= 0:
-            return False
-
-        return True
+        return self.player.hit_points > 0
 
     def boss_turn(self) -> None:
         min_damage = 1
@@ -210,41 +195,62 @@ class GameState:
         self.player.hit_points -= damage
 
     def is_spell_ok_to_cast(self, spell: Spell) -> bool:
-        for s in self.player.spells:
+        # These are affordable spells
+        spells = (s for s in self.player.spells if s.cost <= self.player.mana)
+
+        for s in spells:
             # New spells are allowed to start on the same turn that they end.
             if s.name == spell.name and s.effect.turns <= 1:
                 return True
 
         return all(spell.name != s.name for s in self.player.spells)
 
+    def take_turn_boss(self):
+        game_states = list()
+        temp = copy.deepcopy(self)
+        temp.cast_active_spell_effects()
+        if temp.boss.hit_points <= 0:
+            # We won -- send this golden nugget back :)
+            game_states.append(temp)
+        else:
+            temp.boss_turn()
+            if temp.is_legal():
+                temp.turns += 1
+                game_states.append(temp)
+        return game_states
+
+    def take_turn_player(self):
+
+        # Can only use spells that are OK to cast - cheap enough and non-repeating
+        next_spells = [
+            spell for spell in self.spells if self.is_spell_ok_to_cast(spell)
+        ]
+
+        game_states = list()
+
+        for spell in next_spells:
+            if self.player.mana >= spell.cost:
+                temp = copy.deepcopy(self)
+                temp.cast_active_spell_effects()
+                temp.cast_new_spell(spell)
+                temp.turns += 1
+                game_states.append(temp)
+
+        return game_states
+
     def successors(self, limit: int) -> List[Optional[GameState]]:
         items: List[GameState] = []
 
-        if self.hard_play_should_continue() is False:
+        # ensure we are cutting out early if we have already spent more than the budget
+        if self.player.spent >= limit:
             return items
 
-        if self.is_player_turn_over:
-            # Boss Turn
-            temp = copy.deepcopy(self)
-            temp.cast_active_spell_effects()
-            temp.take_turn()
-            if temp.goal_test(limit) is False:
-                temp.boss_turn()
-
-            if temp.is_legal():
-                items.append(temp)
-
+        if self.is_player_turn():
+            if self.hard_play_should_continue():
+                if self.player.mana >= min(s.cost for s in self.spells):
+                    items = self.take_turn_player()
         else:
-            for spell in self.spells:
-                # Can't reuse an existing active spell
-                if self.is_spell_ok_to_cast(spell):
-                    # must be affordable
-                    if spell.cost <= self.player.mana:
-                        temp = copy.deepcopy(self)
-                        temp.cast_active_spell_effects()
-                        temp.take_turn(spell=spell)
-                        if temp.is_legal():
-                            items.append(temp)
+            items = self.take_turn_boss()
 
         return items
 
@@ -254,28 +260,48 @@ class Node:
         self.state = state
         self.parent = node
 
+    def report(self):
+        current = self
+        collect = [current.state]
+        while current.parent is not None:
+            current = current.parent
+            collect.append(current.state)
 
-def bfs(initial: GameState, limit: int) -> Optional[List[Spell]]:
+        for item in reversed(collect):
+            print(item)
+
+
+def bfs(initial: GameState, limit: int) -> Optional[Node]:
     # frontier is where we've yet to go
     frontier = deque()
-    frontier.append(Node(initial, None))  # explored is where we've been
-
-    explored: Set = {initial}
+    frontier.append(Node(initial, None))
 
     # keep going while there is more to explore
     while frontier:
         current_node = frontier.pop()
-        current_state = current_node.state  # if we found the goal, we're done
+        current_state = current_node.state
+
+        # if we found the goal, we're done
         if current_state.goal_test(limit):
             return current_node
-        # check where we can go next and haven't explored
-        for child in current_state.successors(limit):
-            if child in explored:  # skip children we already explored
-                continue
-            explored.add(child)
-            frontier.append(Node(child, current_node))
+        else:
+            # check where we can go next and haven't explored
+            for child in current_state.successors(limit):
+                frontier.append(Node(child, current_node))
 
     return None
+
+
+def get_cheapest_win(game: GameState) -> int:
+    lowest_spent_to_win = sys.maxsize
+    while True:
+        solution: Optional[Node] = bfs(game, limit=lowest_spent_to_win - 1)
+        if solution is None:
+            break
+        else:
+            lowest_spent_to_win = solution.state.player.spent
+            print(lowest_spent_to_win, f"Hard play [{solution.state.hard}]")
+    return lowest_spent_to_win
 
 
 def main():
@@ -284,21 +310,17 @@ def main():
     player = Character("Player", hit_points=50, mana=500, damage=0, armor=0)
 
     game01 = GameState(boss=boss, player=player, hard=False)
-    solution_01: Optional[Node] = bfs(game01, limit=1241)
+    min_spend_part01 = get_cheapest_win(game01)
+    assert min_spend_part01 == 900, "Actual: {}".format(min_spend_part01)
 
     game02 = GameState(boss=boss, player=player, hard=True)
-    solution_02: Optional[Node] = bfs(game02, limit=1241)
-    assert solution_02.state.player.spent == 1216
-
-    if solution_01 is not None:
-        assert solution_01.state.player.spent == 900
-        print(f"Part_01: {solution_01.state.player.spent}")
-
-    if solution_02 is not None:
-        print(f"Part_02: {solution_02.state.player.spent}")
+    min_spend_part02 = get_cheapest_win(game02)
+    assert min_spend_part02 == 1216, "Actual: {}".format(min_spend_part02)
 
 
 if __name__ == "__main__":
-    # import cProfile
-    # cProfile.run("main()")
+
     main()
+    print("*" * 100)
+
+    # helpers.time_it(main)
